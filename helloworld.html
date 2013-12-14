@@ -10,11 +10,19 @@
 	</style>
 </head>
 
-<body>
-	<h1>Golang Thoughts</h1>
-	<ol>
-		<li><a href="./helloworld.html">Hello World</a></li>
-	</ol>
-	<script src="vendor/prettify.js"></script>
+<body onload="prettyPrint()">
+<h1>Golang - Hello World</h1>
+<pre class="prettyprint">
+package main
+
+import (
+	"fmt"
+)
+
+func main(){
+	fmt.Println("Hello World")
+}
+</pre>
+<script src="vendor/prettify.js"></script>
 </body>
 </html>
