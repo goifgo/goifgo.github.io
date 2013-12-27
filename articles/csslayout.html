@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>CSS Layouts</title>
+	<link rel="stylesheet" href="../vendor/prettify.css">
+	<link rel="stylesheet" href="../global.css">
+</head>
+<body>
+<header>
+	<h1>CSS Layouts</h1>
+</header>
+<nav>
+	<ul>
+		<li><a href="#display">Display</a></li>
+		<li><a href="#widthproperty">Width Property</a></li>
+		<li><a href="#margin">Margin</a></li>
+		<li><a href="#boxmodel">Box Model</a></li>
+		<li><a href="#position">Position</a></li>
+		<li><a href="#float">Float and Clear</a></li>
+		<li><a href="#inlineblock">Display:Inline-Block</a></li>
+		<li><a href="#resource">Resources</a></li>
+	</ul>
+</nav>
+<section>
+	<div id="container">
+	</div>
+</section>
+<footer>
+	<a href="http://twitter.com/ekanna">ekanna</a>
+</footer>
+
+<script type="text/ractive" id="template">
+<article>
+	<div id="display">
+		<h1>Display</h1>
+		<p>In html, every element has a default display value depending on what type of element it is.There are two types of elements viz.</p> 
+		<ul>
+			<li>Block elements or Block level elements and </li>
+			<li>Inline elements.</li>
+		</ul>
+		<p>A block-level element starts on a new line and stretches out to the left and right as far as it can</p>
+			<ul>
+				<li>E.g. div, p, form, header, footer, section etc. </li>
+			</ul>
+		<p>An inline element can wrap some text inside a paragraph without disrupting the flow of that paragraph.</p>
+			<ul>
+				<li>E.g. span, a, img etc.</li>
+			</ul>
+		<p>Important Diplay values</p>
+		<ul>
+			<li>none - Turns off the display of an element</li>
+			<li>inline - The element generates one or more inline element boxes. Can't have width and height properties</li>
+			<li>block - The element generates a block element box</li>
+			<li>inline-block - The element generates a block element box that will be flowed with surrounding content as if it were a single inline box. Can have width and hight properties.</li>
+		</ul>
+	</div>
+	<div id="widthproperty">
+		<h1>Width Property</h1>
+		<p>Setting the width of a block-level element will prevent it from stretching out to the edges of its container to the left and right</p>
+		<pre class="prettyprint">
+			{{d1}}
+		</pre>
+	</div>
+	<div id="margin">
+		<h1>Margin</h1>
+		<ul>
+			<li>margin:top right bottom left</li>
+			<li>margin:top right&left bottom</li>
+			<li>margin:top&bottom right&left</li>
+			<li>margin:allsides</li>
+		</ul>
+	</div>
+	<div id="boxmodel">
+		<h1>Box Model</h1>
+		<p>Content --&gt Padding --&gt Border --&gt Margin</p>
+		<p>While we're talking about width, we should talk about width's big caveat: the box model.</p>
+		<pre class="prettyprint">
+			{{d2}}
+		</pre>
+		<p>To set box-sizing for all elements</p>
+		<pre class="prettyprint">
+			{{d3}}
+		</pre>
+	</div>
+	<div id="position">
+		<h1>Position</h1>
+		<p>"positioned" element is one whose position is anything except static. All positioned elements will have any or all of these properties: top, right, bottom and left</p>
+		<ul>
+			<li>static - default value set by browsers, if nothing is specified</li>
+			<li>relative - like static unless you specify any one of these: top, right, bottom and left for relatively positioned element</li>
+			<li>fixed - like nailing on the wall. Usually used for header, sidebar and footer. It is relative to the viewport. Which means it always stays at the same place even if you scroll.</li>
+			<li>absolute - like fixed but instead of relative to viewport, it is relative to the nearest <em>postioned</em> ancestor!</li>
+		</ul>
+	</div>
+	<div id="float">
+		<h1>Float and Clear</h1>
+		<p>Another CSS property used for layout is float. Float is intended for wrapping text around images</p>
+		<p>The clear property is important for controlling the behavior of floats</p>
+		<pre class="prettyprint">
+			{{d4}}
+		</pre>
+	</div>
+	<div id="inlineblock">
+		<h1>Display Inline-Block</h1>
+		<ul>
+			<li>You can create a grid of boxes that fills the browser width and wraps nicely.</li>
+			<li>This has been possible for a long time using float, but now with inline-block it's even easier.</li>
+			<li>Inline-block elements are like inline elements but they can have a width and height.</li>
+			<li>You can achieve the same effect using the inline-block value of the display property</li>
+			<li>inline-block = float + clear</li>
+		</ul>
+		<pre class="prettyprint">
+			{{d5}}
+		</pre>
+		<p>inline-block elements are affected by the vertical-align property, which you probably want set to top.</p>
+		<pre class="prettyprint">
+			{{d6}}
+		</pre>
+	</div>
+	<div id="resource">
+		<h1>Resource</h1>
+		<ul>
+			<li><a href="http://learnlayout.com/">Learn CSS Layout</a></li>
+		</ul>
+	</div>
+</article>
+</script>
+<script type="text/ractive" id="d1">
+#myid {
+	max-width: 600px; /*Max-width is used to support small screens as well*/
+	margin: 0 auto; /*Top & Bottom is 0. Left & Right is auto - horizontally centers that element within its container*/
+}
+</script>
+<script type="text/ractive" id="d2">
+/*Here total width is 700px. In practice, knowing this actual width in advance is cumbursome process*/
+.complex {
+	max-width: 600px;
+	margin-left: 40px;
+	margin-right: 40px;
+	padding-left: 10px;
+	border-left: 10px;
+}
+
+/*Here total width is still 600px */
+.simple {
+	max-width: 600px;
+	margin-left: 40px;
+	margin-right: 40px;
+	padding-left: 10px;
+	border-left: 10px;
+	box-sizing: border-box; /*Because of this, max-width is inclusive of all marigns, padding, border*/
+}
+</script>
+<script type="text/ractive" id="d3">
+	* {
+		box-sizing: border-box;
+	}	
+</script>
+<script type="text/ractive" id="d4">
+.box {
+  float: left;
+  width: 200px;
+  height: 100px;
+  margin: 1em;
+}
+.after-box {
+  clear: left;
+}
+</script>
+<script type="text/ractive" id="d5">
+.box2 {
+  display: inline-block;
+  width: 200px;
+  height: 100px;
+  margin: 1em;
+}
+</script>
+<script type="text/ractive" id="d6">
+.column {
+  display: inline-block;
+  vertical-align: top;
+  width: 75%;
+}
+</script>
+<script src="../vendor/prettify.js"></script>
+<script src="../vendor/Ractive.min.js"></script>
+<script>
+	function getId(id) {
+		var text = document.getElementById(id).innerHTML
+		return text.substr(1,text.length-2)
+	}
+	ractive = new Ractive({
+		el: '#container',
+		template: '#template',
+		data: {
+			d1: getId('d1'),		
+			d2: getId('d2'),		
+			d3: getId('d3'),		
+			d4: getId('d4'),		
+			d5: getId('d5'),		
+			d6: getId('d6'),		
+		}
+	})
+	prettyPrint()
+</script>
+</body>
+</html>

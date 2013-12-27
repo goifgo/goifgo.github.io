@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>CSS Basics</title>
+	<link rel="stylesheet" href="../vendor/prettify.css">
+	<link rel="stylesheet" href="../global.css">
+</head>
+
+<body>
+<header>
+	<h1>CSS - Basics</h1>
+</header>
+<nav>
+	<ul>
+		<li> <a href="#1">Where to add CSS?</a></li>
+		<li> <a href="#2">How to select CSS selectors</a></li>
+		<li> <a href="#3">What is the meaning of Cascading in Cascading Style Sheets(CSS)</a></li>
+		<li> <a href="#4">What is the relavance of Cascade here?</a></li>
+		<li> <a href="#5">Which one will be priority if the same element is styled differntly at different places?</a></li>
+		<li> <a href="#6">Which one will get priority if same element is styled differently using different selectors</a></li>
+		<li> <a href="#7">CSS Properties and CSS functions</a></li>
+	</ul>
+</nav>
+<section>
+	<div id="container"></div>
+</section>
+<footer>
+	<a href="http://twitter.com/ekanna">ekanna</a>
+</footer>
+
+<script type="text/ractive" id="template">
+<article>
+	<div id="1">
+		<h1>Where to add CSS?</h1>
+		<ul>
+			<li>As a External Link in the head</li>
+				<pre class="prettyprint">
+					{{d1}}
+				</pre>
+			<li>As a Style tag in the Head</li>
+				<pre class="prettyprint">
+					{{d2}}
+				</pre>
+			<li>As Inline style atrribute for elements</li>
+				<pre class="prettyprint">
+					{{d3}}
+				</pre>
+		</ul>
+	</div>
+	<div id="2">
+		<h1>How to use CSS selectors</h1>
+		<ul>
+			<li>Element selector</li>
+				<pre class="prettyprint">
+					{{d4}}
+				</pre>
+				<pre class="prettyprint">
+					{{d5}}
+				</pre>
+			<li>Class selector</li>
+				<pre class="prettyprint">
+					{{d4}}
+				</pre>
+				<pre class="prettyprint">
+					{{d6}}
+				</pre>
+			<li>ID selector</li>
+				<pre class="prettyprint">
+					{{d4}}
+				</pre>
+				<pre class="prettyprint">
+					{{d7}}
+				</pre>
+			<li>Compound selector</li>
+				<pre class="prettyprint">
+					{{d4}}
+				</pre>
+				<pre class="prettyprint">
+					{{d8}}
+				</pre>
+		</ul>
+	</div>
+	<div id="3">
+		<h1>What is the meaning of <em>Cascading</em> in Cascading Style Sheets(CSS)</h1>
+		<ul>
+			<li>Fowing from top to bottom like river i.e. having slope</li>
+			<li>Pass on to a succession of others like parent to child i.e inheritence</li>
+		</ul>
+	</div>
+	<div id="4">
+		<h1>What is the relavance of Cascade here?</h1>
+		<ul>
+			<li>Style Inheritence</li>
+			<li>Every html element will have styles specified by the <em>user</em> or <em>browser vendor</em></li>
+			<li>If the user doesn't specify style info, elements will inherit default style attributes provided by the browser vendor!</li>
+			<li>If the user specifies style info only for parent element, but not for child element then child will inherit parent style info! </li>
+		</ul>
+	</div>
+	<div id="5">
+		<h1>Which one will be priority here?</h1> 
+		<ul>
+			<li>Last one. It is like reassigning to a variable name</li>
+			<pre class="prettyprint">
+				{{d9}}
+			</pre>
+		</ul>
+	</div>
+	<div id="6">
+		<h1>Which one will get priority? when different selectors targeting the same?</h1>
+		<ul>
+			<li>
+				<pre class="prettyprint">
+					{{d10}}
+				</pre>
+				<pre class="prettyprint">
+					{{d11}}
+				</pre>
+			</li>
+			<li>
+				<p>Obviously. The inline style element. Here is the priority order</p>
+					<table>
+						<tr><th>Name</th><th>Priority</th></tr>
+						<tr><td>inline style</td><td>1st</td></tr>
+						<tr><td>#id</td><td>2nd</td></tr>
+						<tr><td>.class</td><td>3rd</td></tr>
+						<tr><td>element</td><td>4th</td></tr>
+					</table>
+					<p>!important will be used to over ride this order and get highest priority</p>
+			</li>
+		</ul>
+	</div>
+	<div id="7">
+		<h1>CSS Properties and CSS functions</h1>
+		<ul>
+			<li>
+				<pre class="prettyprint">
+				{{d12}}
+				</pre>
+			</li>
+			<li>Seeing from the lens of golang!</li>
+			<li>
+				<pre class="prettyprint">
+				{{d13}}
+				</pre>
+			</li>
+			<h3>CSS properties & functions</h3>
+			<p>In the below example, <em>url</em> is the function</p>
+				<ul>
+				<li>In short hand notation, for  background: 
+					<ul>
+					<li>order of arguments is not important</li>
+					<li>some arguments can be omitted</li>
+					</ul>
+				</li>
+				<li>In short hand notation, for margin:
+					<ul>
+						<li>order of arguments is very important</li>
+						<li>omitted arguments will have a different meaning</li>
+					</ul>
+				</li>
+				<li><h3> So, don't use short notaion, especially when you are a seasonal designer! Be specific.</h3></li>
+				<pre class="prettyprint">
+				{{d14}}
+				</pre>
+			</ul>
+		</ul>
+	</div>
+</article>
+</script>
+<script type="text/ractive" id="d1">
+<head>
+	<link rel="stylesheet" href="styles.css"></link>
+</head>
+</script>
+<script type="text/ractive" id="d2">
+<head>
+	<style>
+		h1 { color: #98c7d4; }
+	<style>
+</head>
+</script>
+<script type="text/ractive" id="d3">
+<h1 style="color: #98c7d4;">My style</h1>
+</script>
+<script type="text/ractive" id="d4">
+<h1 class="intro" id="header">Nice and Toasty</h1>
+</script>
+<script type="text/ractive" id="d5">
+h1 {
+	color: #aba4ac;
+	margin-bottom: 10px;
+}
+</script>
+<script type="text/ractive" id="d6">
+.intro {
+	color: #aba4ac;
+	margin-bottom: 10px;
+}
+</script>
+<script type="text/ractive" id="d7">
+#header {
+	color: #aba4ac;
+	margin-bottom: 10px;
+}
+</script>
+<script type="text/ractive" id="d8">
+h1#header {
+	color: #aba4ac;
+	margin-bottom: 10px;
+}
+</script>
+<script type="text/ractive" id="d9">
+<header>
+	<link rel="stylesheet" href="style.css"></link>
+	style {
+		.into {
+			color: #444245;
+		}
+		.intro {
+			color: #dddadd;
+		}
+	}
+</header>
+</script>
+<script type="text/ractive" id="d10">
+<header>
+	<link rel="stylesheet" href="style.css"></link>
+	style {
+		'#kanna {
+			color: #444245;
+		}
+		.intro {
+			color: #dddadd;
+		}
+		h1 {
+			color: green;
+		}
+	}
+</header>
+</script>
+<script type="text/ractive" id="d11">
+<h1 class="intro" id="kanna" style="color:red;">Nice and Toasty</h1>
+</script>
+<script type="text/ractive" id="d12">
+background: #00ff00 url('smiley.gif') no-repeat fixed center; 
+background: color position size repeat origin clip attachment image;
+</script>
+<script type="text/ractive" id="d13">
+package main
+
+import (
+	"fmt"
+)
+
+type Background struct {
+	color string // Specifies the background color to be used
+    position string // Specifies the position of the background images
+    size string // css3 Specifies the size of the background images
+    repeat string // Specifies how to repeat the background images
+    origin string // css3 Specifies the positioning area of the background images
+    clip string // css3 Specifies the painting area of the background images
+    attachment string // Specifies whether the background images are fixed or scrolls with the rest of the page
+    image urls // Specifies ONE or MORE background images to be used
+}
+
+func main() {
+    // Different ways of using 
+	
+	// Here order is must as we are not specifing field names
+    bg1 := Background{"#00ff00", "right top", "80px 60px", "repeat-y", "content-box", "content-box", "fixed", urls{"smiley.gif"}}
+    
+	// Here order is not important as we are specifing fild names
+    bg2 := Background{
+        color: "#00ff00",
+        position: "right top",
+        image: urls{"smiley.gif"},
+        clip: helper("box"),
+    }
+	// Specifing using dot notation
+    bg3 := Background{}
+    bg3.color = "#00ff00"
+    bg3.position = "right top"
+    bg3.image = urls{"smiley.gif"}
+    bg3.clip = helper("box")
+
+    fmt.Printf("%#v\n", bg1)
+    fmt.Printf("%v\n", bg2)
+    fmt.Printf("%v\n", bg3)
+}
+
+type urls struct {
+	href string
+}
+
+func (u *urls) String() string {
+	return "Hi, " + u.href
+}
+
+func helper(name string) string{
+	return "content-" + name
+}
+</script>
+<script type="text/ractive" id="d14">
+/*Short hand notation*/
+html {
+	background: #00ff00 url('smiley.gif') no-repeat fixed center;
+}
+/*Short hand notation*/
+html {
+	background:url('img_flwr.gif');
+}
+/*Specifing field by field*/
+html {
+	background-size:80px 60px;
+	background-repeat:no-repeat;
+}
+</script>
+<script src="../vendor/prettify.js"></script>
+<script src="../vendor/Ractive.min.js"></script>
+<script>
+	function getId(id) {
+		var text = document.getElementById(id).innerHTML
+		return text.substr(1,text.length-2)
+	}
+	var ractive = new Ractive({
+		el: "#container",
+		template: "#template",
+		data: {
+			d1: getId('d1'),
+			d2: getId('d2'),
+			d3: getId('d3'),
+			d4: getId('d4'),
+			d5: getId('d5'),
+			d6: getId('d6'),
+			d7: getId('d7'),
+			d8: getId('d8'),
+			d9: getId('d9'),
+			d10: getId('d10'),
+			d11: getId('d11'),
+			d12: getId('d12'),
+			d13: getId('d13'),
+			d14: getId('d14'),
+		}
+	})
+	
+	prettyPrint()
+</script>
+</body>
+</html>
