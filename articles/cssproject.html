@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<title>My CSS Project</title>
+	<link rel="stylesheet" href="../vendor/prettify.css">
+	<style>
+		* {
+			margin:0;
+			border:0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+		.grid {
+			list-style: none;
+    		text-align: center;
+			max-width:90em;
+			margin: 0.5em auto;
+		}
+		.grid li {
+			display: inline-block;
+			height: 12em;
+			min-width: 40em;
+			margin: 0.1em auto;
+		}
+		.grid li:nth-child(1) { 
+			background: #3399CC; 
+		}
+		.grid li:nth-child(2) {
+			min-width: 20em;
+			background: #33CCCC; 
+		}
+		.grid li:nth-child(3) {
+			min-width: 20em;
+			background: #996699;
+		}
+		.grid li:nth-child(4) {
+			min-width: 20em;
+			background: #e2674a;
+		}
+		.grid li:nth-child(5) {
+			background: #C24747;
+		}
+		.grid li:nth-child(6) {
+			min-width: 20em;
+			background: #FFCC66;
+		}
+		.grid li:nth-child(7) {
+			background: #99CC99;
+		}
+		.grid li:nth-child(8) { 
+			background: #669999; 
+		}
+		.grid li:nth-child(9) { 
+			background: #CC6699; 
+		}
+		.grid li:nth-child(10) { 
+			background: #339966;
+		}
+		.grid li:nth-child(11) { 
+			background: #666699; 
+		}
+		footer {
+			position: fixed;
+			bottom:0.5em;
+			max-width: 90em;
+			margin-left: 5em;
+			margin-right: 5em;
+		}
+		footer li{
+			display: inline-block;
+		}
+	</style>
+</head>
+
+<body>
+<div id="container"></div>
+<script type="text/ractive" id="template">
+<div id="menu" class="grid">
+	<ul>
+		<li>Revenue</li>
+		<li>Receivables</li>
+		<li>Treasury</li>
+		<li>Fixed Assets</li>
+		<li>Expenses</li>
+		<li>NetWorth</li>
+		<li>Employees</li>
+		<li>Adwords</li>
+	</ul>
+</div>
+<footer>
+	<ul>
+		<li>Last Updated at ......</li>
+		<li>Refresh</li>
+		<li>Sign Out</li>
+	</ul>
+</footer>
+</script>
+<script type="text/ractive" id="d1">
+</script>
+<script src="../vendor/prettify.js"></script>
+<script src="../vendor/Ractive.min.js"></script>
+<script>
+	function getId(id) {
+		var text = document.getElementById(id).innerHTML
+		return text.substr(1,text.length-2)
+	}
+	var ractive = new Ractive({
+		el: "#container",
+		template: "#template",
+		data: {
+			d1: getId('d1'),
+		}
+	})
+	prettyPrint()
+</script>
+</body>
+</html>

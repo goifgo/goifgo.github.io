@@ -20,6 +20,11 @@
 			 transform: translate3d(0, -350px, 0);
 			 -webkit-transform: translate3d(0, -350px, 0);
 		}
+		#box1 img:hover {
+			 transform: translate3d(0, 0px, 0);
+			 -webkit-transform: translate3d(0, 0px, 0);
+			 cursor: pointer;
+		}
 		#box2 img {
 			 transform: translate3d(0, -350px, 0);
 			 transition: transform .5s ease-in;
@@ -27,16 +32,184 @@
 			 -webkit-transform: translate3d(0, -350px, 0);
 			 -webkit-transition: -webkit-transform .5s ease-in;
 		}
-		#box1 img:hover {
-			 transform: translate3d(0, 0px, 0);
-			 -webkit-transform: translate3d(0, 0px, 0);
-			 cursor: pointer;
-		}
 		#box2 img:hover {
 			 transform: translate3d(0, 0px, 0);
 			 -webkit-transform: translate3d(0, 0px, 0);
 			 cursor: pointer;
 		}
+		#box3 img {
+			 animation: bobble 2s infinite;
+			 -webkit-animation: bobble 2s infinite;
+		}
+		@keyframes bobble {
+			 0% {
+			 	  transform: translate3d(0, -350px, 0);
+			 	  -webkit-transform: translate3d(0, -350px, 0);
+				  animation-timing-function: ease-in;
+				  -webkit-animation-timing-function: ease-in;
+			 }
+			 50% {
+			 	  transform: translate3d(0, 150px, 0);
+			 	  -webkit-transform: translate3d(0, 150px, 0);
+				  animation-timing-function: ease-in;
+				  -webkit-animation-timing-function: ease-in;
+			 }
+			 75% {
+				  transform: translate3d(50px, -150px, 0px);
+				  -webkit-transform: translate3d(50px, -150px, 0px);
+				  animation-timing-function: ease-in;
+				  -webkit-animation-timing-function: ease-out;
+			 }
+			 100% {
+				  transform: translate3d(0px, 0px, 0px);
+				  -webkit-transform: translate3d(0px, 0px, 0px);
+			 }
+		}
+		@-webkit-keyframes bobble {
+			 0% {
+			 	  transform: translate3d(0, -350px, 0);
+				  animation-timing-function: ease-in;
+			 	  -webkit-transform: translate3d(0, -350px, 0);
+				  -webkit-animation-timing-function: ease-in;
+			 }
+			 50% {
+			 	  transform: translate3d(0, 150px, 0);
+			 	  -webkit-transform: translate3d(0, 150px, 0);
+				  animation-timing-function: ease-in;
+				  -webkit-animation-timing-function: ease-in;
+			 }
+			 75% {
+				  transform: translate3d(50px, -150px, 0px);
+				  -webkit-transform: translate3d(50px, -150px, 0px);
+				  animation-timing-function: ease-in;
+				  -webkit-animation-timing-function: ease-out;
+			 }
+			 100% {
+				  transform: translate3d(0px, 0px, 0px);
+				  -webkit-transform: translate3d(0px, 0px, 0px);
+			 }
+		}
+		
+		/*Advanced Selectors */
+		p{
+			font-size: 16px;
+			max-width: 50px;
+			text-align:center;
+		}
+
+		.mycontainer{
+			max-width: 50px;
+			overflow: hidden;
+			padding:5px;
+		}
+
+		.elem{
+			width:30px;
+			height:30px;
+			margin:4px;
+			background-color:#A0DFAC;
+			float:left;
+		}
+
+		.elem span{
+			position:absolute;
+			top:5px;
+			left:5px;
+			right:5px;
+			bottom:5px;
+			border:2px solid #fff;
+		}
+
+		/* Selectors for matching the 
+		first letter and line: */
+
+		p::first-letter{
+			background-color: #666;
+			color: #FFF;
+			font-size: 24px;
+			font-style:normal;
+			display: inline-block;
+			padding: 0 5px;
+			border-radius: 3px;
+			margin-right: 2px;
+			font-family: serif;
+		}
+
+		p::first-line{
+			font-size: 18px;
+			text-transform: smallcaps;
+			font-style: italic;
+			text-decoration: underline;
+		}
+
+		/* Make the first and 
+		last elements purple */
+
+		.elem:first-child,
+		.elem:last-child{
+			background-color:#948bd8;
+		}
+
+		/* Make every other element rounded */
+
+		.elem:nth-child(odd){
+			border-radius:50%;
+		}
+
+		/* Make the sixth element red */
+
+		.elem:nth-child(6){
+			background-color:#cb6364;
+		}
+
+		/* Style the element which contains 
+		the span */
+
+		.elem:not(:empty){
+			background-color:#444;
+			position:relative;
+
+			-webkit-transform:rotate(25deg);
+			transform:rotate(25deg);
+
+		}
+
+		/* Target elements by attribute */
+
+		.elem[data-foo=bar1]{
+			background-color:#aaa;
+		}
+
+		.elem[data-foo=bar2]{
+			background-color:#d7cb89;
+		}
+
+		/* The attribute value should start with bar.
+		 This matches both of the above elements */
+
+		.elem[data-foo^=bar]{
+			width: 16px;
+			height: 16px;
+			margin: 11px;
+		}
+
+		/* The element that follows after the one 
+		with data-foo="bar2" attribute */
+
+		.elem[data-foo=bar2] + .elem{
+			background-color:#78ccd2;
+		}
+
+		/*Content Before and After*/
+		q::before { 
+		  content: "»";
+		  color: blue;
+		}
+		q::after { 
+		  content: '«';
+		  color: red;
+		}
+
 	</style>
 </head>
 <body>
@@ -52,7 +225,12 @@
 		<li><a href="#transitions">Transitions</a></li>
 		<li><a href="#animations">Animations</a></li>
 		<li><a href="#tvsa">Transitions Vs. Animations</a></li>
-		<li><a href="#clip">Clip()</a></li>
+		<li><a href="#selectors">Advanced Selectors</a></li>
+		<li><a href="#content">CSS Content - Before and After</a></li>
+		<li><a href="#boxsizing">Box Sizing</a></li>
+		<li><a href="#gradients">Gradients</a></li>
+		<li><a href="#columns">CSS Columns</a></li>
+		<li><a href="#clip">Clip</a></li>
 		<li><a href="#resources">Resources</a></li>
 	</ul>
 </nav>
@@ -78,7 +256,10 @@
 	</div>
 	<div id="mediaqueries">
 		<h2>Media Queries</h2>
-		<p>To create responsive designs</p>
+		<ul>
+		<li>To create responsive designs based on different types of devices</li>
+		<li>Styling can be done based on device height, width, device orientation i.e. landscape or portrait etc.</li>
+		</ul>
 		<pre class="prettyprint">
 			{{d2}}
 		</pre>
@@ -87,7 +268,7 @@
 				<a href="http://learnlayout.com/media-queries.html">Learn Layout - simple media queries</a>
 			</li>
 			<li>
-				<a href="https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Using_CSS_animations">Mozilla Media Queries</a>
+				<a href="https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Media_queries">Mozilla Media Queries</a>
 			</li>
 		</ul>
 	</div>
@@ -115,10 +296,11 @@
 			<li>Here change is instantaneous. No transitions applied</li>
 			<li>Open the above image in new tab to see the actual image</li>
 			<li>All the methods of transform can be found at <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/transform">Mozilla Transform</a></li>
+			<li><a href="http://webdesigntutsplus.s3.amazonaws.com/articles/042_css_animation_intro/demo.html/index.html">Transform and Translate</a></li>
 		</ul>
 	</div>
 	<div id="transitions">
-		<h1>Transitions</h1>
+		<h2>Transitions</h2>
 		<ul>
 		<li>CSS transitions, provide a way to control animation speed when changing CSS properties</li>
 		<li>For example, if you change the color of an element from white to black, usually the change is instantaneous.</li>
@@ -134,20 +316,139 @@
 		</div>
 	</div>
 	<div id="animations">
-		<h1>Animations</h1>
-		<pre class="prettyprint">
-		</pre>
+		<h2>Animations</h2>
+		<ul>
+			<li>Transitions can have only start and end points</li>
+			<li>Anmations can have mutiple points between start and end with @keyframes</li>
+			<li>In otherwords, Animations can have multiple transitions! defined by the user using @keyframes</li>
+		</ul>
+		<div id="box3" class="mybox boxcode">
+			<img height="700" src="./images/html5_slider.png" width="350">
+		</div>
+		<div class="boxcode">
+			<pre class="prettyprint">
+				{{d6}}
+			</pre>
+		</div>
 	</div>
 	<div id="tvsa">
-		<h1>Transitions vs. Animations</h1>
-		<pre class="prettyprint">
-		</pre>
+		<h2>Transitions vs. Animations</h2>
+		<ul>
+			<li>Transition only plays as a reaction to a CSS property that has changed.</li>
+			<li>Animations, don't require any explicit triggering. Once you define the animation, it will start playing automatically.</li>
+			<li>Animations typically used for ads!</li>
+			<li>Transitions typically used in UI applications!</li>
+		</ul>
+	</div>
+	<div id="selectors">
+		<h2>Advanced Selectors</h2>
+		<ul>
+			<li>In CSS3, there is distinction while selecting pseudo-classes and pseudo-elements</li>
+			<li>pseudo-elements are selected with double colon <em>p::first-line{}</em></li>
+			<li>pseudo-classes are selected with single colon <em>.kanna:first-child{}</em></li>
+		</ul>
+		<div class="boxcode">
+			<pre class="prettyprint">
+				{{d7}}
+			</pre>
+		</div>
+		<div class="boxcode">
+			<pre class="prettyprint">
+				{{d8}}
+			</pre>
+			<div id="myselectors">
+				<p>This is a regular paragraph of text</p>
+				<div class="mycontainer">
+					<div class="elem"></div>
+					<div class="elem"></div>
+					<div class="elem"></div>
+					<div class="elem"></div>
+					<div class="elem"></div>
+					<div class="elem"></div>
+					<div class="elem"></div>
+					<div class="elem"></div>
+					<div class="elem"></div>
+					<div class="elem"></div>
+					<div class="elem"></div>
+					<div class="elem"></div>
+					<div class="elem"></div>
+					<div class="elem"><span></span></div>
+					<div class="elem"></div>
+					<div class="elem"></div>
+					<div class="elem"></div>
+					<div class="elem" data-foo="bar1"></div>
+					<div class="elem" data-foo="bar2"></div>
+					<div class="elem"></div>
+					<div class="elem"></div>
+					<div class="elem"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="content">
+		<h2>CSS Content - Before and After</h2>
+		<div>
+			<pre class="prettyprint">
+				{{d9}}
+			</pre>
+		</div>
+		<q>Some quotes</q>, he said, <q>are better than none</q>
+		<ul>
+		<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/::before">Mozilla - CSS Content Before and After</a></li>
+		</ul>
+	</div>
+	<div id="boxsizing">
+		<h2>Box Sizing</h2>
+		<ul>
+			<li>Refer to CSS Layouts article</li>
+		</ul>
+		<div>
+			<pre class="prettyprint">
+				{{d10}}
+			</pre>
+		</div>
+	</div>
+	<div id="gradients">
+		<h2>Gradients</h2>
+		<ul>
+			<li>Linear</li>
+			<li>Radial</li>
+			<li>Repeating Linear</li>
+			<li>Repeating Radial</li>
+		</ul>
+		<div>
+			<pre class="prettyprint">
+				{{d11}}
+			</pre>
+		</div>
+		<ul>
+		<li><a href="https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Using_CSS_gradients">Mozilla - CSS Gradients</a></li>
+		</ul>
+	</div>
+	<div id="columns">
+		<h2>CSS Columns</h2>
+		<div>
+			<pre class="prettyprint">
+				{{d12}}
+			</pre>
+		</div>
+	</div>
+	<div id="clip">
+		<h2>Clip</h2>
+		<div>
+			<pre class="prettyprint">
+				{{d13}}
+			</pre>
+		</div>
 	</div>
 	<div id="resources">
-		<h1>Resources</h1>
+		<h2>Resources</h2>
 		<ul>
 			<li><a href="http://tutorialzine.com/2013/10/12-awesome-css3-features-you-can-finally-use/">12 CSS3 Features</a></li>
 			<li><a href="http://www.kirupa.com/html5/all_about_css_transitions.htm">CSS Transitions</a></li>
+			<li><a href="http://www.kirupa.com/html5/introduction_to_animation_html.htm">CSS Animations</a></li>
+			<li><a href="https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Using_CSS_animations">Mozilla CSS Animations</a></li>
+			<li><a href="http://www.w3schools.com/cssref/css_selectors.asp">List of CSS Selectors</a></li>
 		</ul>
 	</div>
 </article>
@@ -179,43 +480,233 @@ body {
 }
 </script>
 <script type="text/ractive" id="d4">
-#box {
+#box1 {
 	 width: 350px;
 	 height: 350px;
 	 border: 5px black solid;
 	 overflow: hidden;
 	 background-color: #F2F2F2;
 }
-#box img {
+#box1 img {
 	 transform: translate3d(0, -350px, 0);
-	 -webkit-transform: translate3d(0, -350px, 0);
 }
-#box img:hover {
+#box1 img:hover {
 	 transform: translate3d(0, 0px, 0);
-	 -webkit-transform: translate3d(0, 0px, 0);
 	 cursor: pointer;
 }
 </script>
 <script type="text/ractive" id="d5">
-#box {
+#box2 {
 	 width: 350px;
 	 height: 350px;
 	 border: 5px black solid;
 	 overflow: hidden;
 	 background-color: #F2F2F2;
 }
-#box img {
+#box2 img {
 	 transform: translate3d(0, -350px, 0);
 	 transition: transform .5s ease-in;
-
-	 -webkit-transform: translate3d(0, -350px, 0);
-	 -webkit-transition: -webkit-transform .5s ease-in;
 }
-#box img:hover {
+#box2 img:hover {
 	 transform: translate3d(0, 0px, 0);
-	 -webkit-transform: translate3d(0, 0px, 0);
 	 cursor: pointer;
 }
+</script>
+<script type="text/ractive" id="d6">
+#box3 img {
+	 animation: bobble 2s infinite;
+}
+@keyframes bobble {
+	 0% {
+		  transform: translate3d(0, -350px, 0);
+		  animation-timing-function: ease-in;
+	 }
+	 50% {
+		  transform: translate3d(0, 150px, 0);
+		  animation-timing-function: ease-in;
+	 }
+	 75% {
+		  transform: translate3d(50px, -150px, 0px);
+		  animation-timing-function: ease-in;
+	 }
+	 100% {
+		  transform: translate3d(0px, 0px, 0px);
+	 }
+}
+</script>
+<script type="text/ractive" id="d7">
+/* Style the elements 
+(nothing interesting here) */
+
+p{
+	font-size: 16px;
+	max-width: 50px;
+	text-align:center;
+}
+
+.mycontainer{
+	max-width: 50px;
+	overflow: hidden;
+	padding:5px;
+}
+
+.elem{
+	width:30px;
+	height:30px;
+	margin:4px;
+	background-color:#A0DFAC;
+	float:left;
+}
+
+.elem span{
+	position:absolute;
+	top:5px;
+	left:5px;
+	right:5px;
+	bottom:5px;
+	border:2px solid #fff;
+}
+
+/* Selectors for matching the 
+first letter and line: */
+
+p::first-letter{
+	background-color: #666;
+	color: #FFF;
+	font-size: 24px;
+	font-style:normal;
+	display: inline-block;
+	padding: 0 5px;
+	border-radius: 3px;
+	margin-right: 2px;
+	font-family: serif;
+}
+
+p::first-line{
+	font-size: 18px;
+	text-transform: smallcaps;
+	font-style: italic;
+	text-decoration: underline;
+}
+
+/* Make the first and 
+last elements purple */
+
+.elem:first-child,
+.elem:last-child{
+	background-color:#948bd8;
+}
+
+/* Make every other element rounded */
+
+.elem:nth-child(odd){
+	border-radius:50%;
+}
+
+/* Make the sixth element red */
+
+.elem:nth-child(6){
+	background-color:#cb6364;
+}
+
+/* Style the element which contains 
+the span */
+
+.elem:not(:empty){
+	background-color:#444;
+	position:relative;
+
+	-webkit-transform:rotate(25deg);
+	transform:rotate(25deg);
+
+}
+
+/* Target elements by attribute */
+
+.elem[data-foo=bar1]{
+	background-color:#aaa;
+}
+
+.elem[data-foo=bar2]{
+	background-color:#d7cb89;
+}
+
+/* The attribute value should start with bar.
+ This matches both of the above elements */
+
+.elem[data-foo^=bar]{
+	width: 16px;
+	height: 16px;
+	margin: 11px;
+}
+
+/* The element that follows after the one 
+with data-foo="bar2" attribute */
+
+.elem[data-foo=bar2] + .elem{
+	background-color:#78ccd2;
+}
+</script>
+<script type="text/ractive" id="d8">
+<p>This is a regular paragraph of text</p>
+<div class="mycontainer">
+	<div class="elem"></div>
+	<div class="elem"></div>
+	<div class="elem"></div>
+	<div class="elem"></div>
+	<div class="elem"></div>
+	<div class="elem"></div>
+	<div class="elem"></div>
+	<div class="elem"></div>
+	<div class="elem"></div>
+	<div class="elem"></div>
+	<div class="elem"></div>
+	<div class="elem"></div>
+	<div class="elem"></div>
+	<div class="elem"><span></span></div>
+	<div class="elem"></div>
+	<div class="elem"></div>
+	<div class="elem"></div>
+	<div class="elem" data-foo="bar1"></div>
+	<div class="elem" data-foo="bar2"></div>
+	<div class="elem"></div>
+	<div class="elem"></div>
+	<div class="elem"></div>
+</div>
+</script>
+
+<script type="text/ractive" id="d9">
+<q>Some quotes</q>, he said, <q>are better than none</q>.
+
+q::before { 
+  content: "»";
+  color: blue;
+}
+q::after { 
+  content: '«';
+  color: red;
+}
+</script>
+<script type="text/ractive" id="d10">
+* {
+	box-sizing: border-box;	
+}
+</script>
+<script type="text/ractive" id="d11">
+#myid1 {
+	background: linear-gradient(to bottom, blue, white);
+}
+#myid2 {
+	background: linear-gradient(70deg, black, white);
+}
+</script>
+<script type="text/ractive" id="d12">
+#mydiv p{
+	columns: 4
+}
+</script>
+<script type="text/ractive" id="d13">
+kotikanna
 </script>
 <script src="../vendor/prettify.js"></script>
 <script src="../vendor/Ractive.min.js"></script>
@@ -233,6 +724,14 @@ body {
 			d3: getId('d3'),		
 			d4: getId('d4'),		
 			d5: getId('d5'),		
+			d6: getId('d6'),		
+			d7: getId('d7'),		
+			d8: getId('d8'),		
+			d9: getId('d9'),		
+			d10: getId('d10'),		
+			d11: getId('d11'),		
+			d12: getId('d12'),		
+			d13: getId('d13'),		
 		}
 	})
 	prettyPrint()
