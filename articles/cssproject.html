@@ -3,92 +3,54 @@
 <head>
 	<meta charset="utf-8" />
    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<title>My CSS Project</title>
-	<link rel="stylesheet" href="../vendor/prettify.css">
+	<link rel="stylesheet" href="./cssproject.css">
 	<style>
-		* {
-			margin:0;
-			border:0;
-			padding: 0;
-			box-sizing: border-box;
-		}
-		.grid {
-			list-style: none;
-    		text-align: center;
-			max-width:90em;
-			margin: 0.5em auto;
-		}
-		.grid li {
-			display: inline-block;
-			height: 12em;
-			min-width: 40em;
-			margin: 0.1em auto;
-		}
-		.grid li:nth-child(1) { 
-			background: #3399CC; 
-		}
-		.grid li:nth-child(2) {
-			min-width: 20em;
-			background: #33CCCC; 
-		}
-		.grid li:nth-child(3) {
-			min-width: 20em;
-			background: #996699;
-		}
-		.grid li:nth-child(4) {
-			min-width: 20em;
-			background: #e2674a;
-		}
-		.grid li:nth-child(5) {
-			background: #C24747;
-		}
-		.grid li:nth-child(6) {
-			min-width: 20em;
-			background: #FFCC66;
-		}
-		.grid li:nth-child(7) {
-			background: #99CC99;
-		}
-		.grid li:nth-child(8) { 
-			background: #669999; 
-		}
-		.grid li:nth-child(9) { 
-			background: #CC6699; 
-		}
-		.grid li:nth-child(10) { 
-			background: #339966;
-		}
-		.grid li:nth-child(11) { 
-			background: #666699; 
-		}
-		footer {
-			position: fixed;
-			bottom:0.5em;
-			max-width: 90em;
-			margin-left: 5em;
-			margin-right: 5em;
-		}
-		footer li{
-			display: inline-block;
-		}
 	</style>
 </head>
 
 <body>
 <div id="container"></div>
-<script type="text/ractive" id="template">
+
+<script type="text/ractive" id="menuT">
 <div id="menu" class="grid">
 	<ul>
-		<li>Revenue</li>
-		<li>Receivables</li>
-		<li>Treasury</li>
-		<li>Fixed Assets</li>
-		<li>Expenses</li>
-		<li>NetWorth</li>
-		<li>Employees</li>
-		<li>Adwords</li>
+		<li on-tap="activate">
+			<a href="#revenue">
+			<h3>Revenue</h3>
+			<span class="money">US$ 20 Billions</span>
+			</a>
+		</li>
+		<li>
+			<h3>Receivables</h3>
+			<span class="money">US$ 20 Billions</span>
+		</li>
+		<li>
+			<h3>Treasury</h3>
+			<span class="money">US$ 20 Billions</span>
+		</li>
+		<li>
+			<h3>Fixed Assets</h3>
+			<span class="money">US$ 20 Billions</span>
+		</li>
+		<li>
+			<h3>Expenses</h3>
+			<span class="money">US$ 20 Billions</span>
+		</li>
+		<li>
+			<h3>NetWorth</h3>
+			<span class="money">US$ 20 Billions</span>
+		</li>
+		<li>
+			<h3>Employees</h3>
+			<span class="money">US$ 20 Billions</span>
+		</li>
+		<li>
+			<h3>Adwords</h3>
+			<span class="money">US$ 20 Billions</span>
+		</li>
 	</ul>
 </div>
 <footer>
@@ -99,23 +61,21 @@
 	</ul>
 </footer>
 </script>
-<script type="text/ractive" id="d1">
+<script type="text/ractive" id="revenueT">
+<div class="rb-overlay">
+	<div class="rb-week">
+		 <div on-tap="kactivate"><span class="rb-city">Lisbon</span><span class="icon-clima-1"></span><span>21°C</span></div>
+		 <div><span>Mon</span><span class="icon-clima-1"></span><span>19°C</span></div>
+		 <div><span>Tue</span><span class="icon-clima-2"></span><span>19°C</span></div>
+		 <div><span>Wed</span><span class="icon-clima-2"></span><span>18°C</span></div>
+		 <div><span>Thu</span><span class="icon-clima-2"></span><span>17°C</span></div>
+		 <div><span>Fri</span><span class="icon-clima-1"></span><span>19°C</span></div>
+		 <div><span>Sat</span><span class="icon-clima-1"></span><span>22°C</span></div>
+		 <div><span>Sun</span><span class="icon-clima-1"></span><span>18°C</span></div>
+	</div>
+</div>
 </script>
-<script src="../vendor/prettify.js"></script>
-<script src="../vendor/Ractive.min.js"></script>
-<script>
-	function getId(id) {
-		var text = document.getElementById(id).innerHTML
-		return text.substr(1,text.length-2)
-	}
-	var ractive = new Ractive({
-		el: "#container",
-		template: "#template",
-		data: {
-			d1: getId('d1'),
-		}
-	})
-	prettyPrint()
-</script>
+<script src="../vendor/vendor.js"></script>
+<script src="./cssproject.js"></script>
 </body>
 </html>

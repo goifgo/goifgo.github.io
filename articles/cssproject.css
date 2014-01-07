@@ -1,0 +1,197 @@
+/* Specifing font source and giving a name to it*/
+@font-face {
+	font-family: 'DIN';
+	src: url('./fonts/DINWeb.woff') format('woff');
+}
+@font-face {
+	font-family: 'DIN-medium';
+	src: url('./fonts/DINWeb-Medium.woff') format('woff');
+}
+@font-face {
+	font-family: 'DIN-light';
+	src: url('./fonts/DINWeb-Light.woff') format('woff');
+}
+* {
+	margin:0;
+	border:0;
+	padding: 0;
+	box-sizing: border-box;
+	/*font-size:20px;*/
+	font-family: 'DIN', Sans-serif; /*Here Sans-serif is a fallback*/
+}
+a {
+	text-decoration: none;
+	color:inherit;
+}
+.grid {
+	list-style: none;
+	text-align: center;
+	max-width:90em;
+	margin: 0.5em auto;
+}
+.grid li {
+	display: inline-block;
+	vertical-align: top;
+	height: 12.5em;
+	min-width: 40em;
+	margin: 0.1em auto;
+	padding-top:4em;
+	cursor:pointer;
+	color: #fff;
+	position: relative;
+	line-height: 2em;
+}
+.grid li h3 {
+	font-size: 2em;
+	font-weight: 100;
+}
+.money {
+	display: block;
+	font-size: 2em;
+	opacity: 0.5;
+	transition: all 0.3s ease-in-out;
+}
+
+.grid li:hover .money {
+	opacity:1;
+}
+.grid li:hover h3 {
+	opacity:0.5;
+}
+
+.grid li:nth-child(1) { 
+	background: #3399CC; 
+}
+.grid li:nth-child(2) {
+	min-width: 20em;
+	background: #33CCCC; 
+}
+.grid li:nth-child(3) {
+	min-width: 20em;
+	background: #996699;
+}
+.grid li:nth-child(4) {
+	min-width: 20em;
+	background: #e2674a;
+}
+.grid li:nth-child(5) {
+	background: #C24747;
+}
+.grid li:nth-child(6) {
+	min-width: 20em;
+	background: #FFCC66;
+}
+.grid li:nth-child(7) {
+	background: #99CC99;
+}
+.grid li:nth-child(8) { 
+	background: #669999; 
+}
+.grid li:nth-child(9) { 
+	background: #CC6699; 
+}
+.grid li:nth-child(10) { 
+	background: #339966;
+}
+.grid li:nth-child(11) { 
+	background: #666699; 
+}
+footer {
+	position: fixed;
+	bottom:0.5em;
+	max-width: 90em;
+	margin-left: 2em;
+	margin-right: 5em;
+}
+footer li{
+	display: inline-block;
+	text-align: center;
+}
+
+.rb-overlay {
+    opacity: 1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: all 0.4s ease;
+    z-index: 1;
+    /*pointer-events: none;*/
+    /*cursor: default;*/
+	 color:#ffffff;
+}
+.rb-week {
+    width: 100%;
+    height: 100%;
+}
+
+.rb-week > div {
+    width: 10%;
+    height: 100%;
+    float: left;
+    position: relative;
+    padding: 3% 0;
+	 cursor:pointer;
+}
+ 
+.rb-week > div:first-child {
+    width: 30%;
+}
+
+.rb-week span {
+    padding: 5% 0;
+    font-size: 2em;
+    font-weight: 100;
+    display: block;
+    margin: auto 0;
+    height: 30%;
+    width: 100%;
+    line-height: 0.8;
+}
+
+.rb-week span.rb-city {
+    font-weight: 700;
+    padding: 1% 10%;
+    font-size: 3em;
+    line-height: 1.2;
+}
+
+.rb-week > div:nth-child(1) { background: #3399CC; }
+.rb-week > div:nth-child(2) { background: #2D87B4; }
+.rb-week > div:nth-child(3) { background: #297AA3; }
+.rb-week > div:nth-child(4) { background: #256E93; }
+.rb-week > div:nth-child(5) { background: #216283; }
+.rb-week > div:nth-child(6) { background: #1D5672; }
+.rb-week > div:nth-child(7) { background: #184962; }
+.rb-week > div:nth-child(8) { background: #143D52; }
+
+/*Media Queries*/
+
+@media (min-width:1600px){
+	* {
+		font-size: 20px;
+	}
+}
+
+/*ipad landscape mode*/
+@media screen and (min-width:700px) and (max-width:1200px) and (orientation: landscape){
+	* {
+		font-size: 12px;
+	}
+	.grid li {
+		height:16.6em;
+	}
+}
+
+/*ipad portrait mode*/
+@media screen and (max-width:800px) and (orientation:portrait) {
+	* {
+		font-size: 12px;
+	}
+	.grid li {
+		width: 60em;
+		height:10em;
+	}
+}
+
