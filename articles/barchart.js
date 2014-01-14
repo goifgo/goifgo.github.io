@@ -1,28 +1,28 @@
 "use strict"
 
 var BarChart = Ractive.extend({
-	template: '#barchartT',
+	template: '#barChartT',
 	init: function(options) {
 		var self = this;
 		this.bdata = options.bdata;
 		/*
 		this.set('bdata', this.bdata);
-		this.set('svgwidth', this.svgwidth);
-		this.set('svgheight', this.svgheight);
-		this.set('width', this.barwidth(this.bdata, this.svgwidth));
-		console.log(this.svgheight);
+		this.set('svgWidth', this.svgWidth);
+		this.set('svgHeight', this.svgHeight);
+		this.set('width', this.barWidth(this.bdata, this.svgWidth));
+		console.log(this.svgHeight);
 		*/
 	},
 	name: function(){
 		console.log(this.bdata);
 	},
-	barwidth: function(bdata, svgwidth){
-		return svgwidth/(bdata.length * 2) * 0.9;
+	barWidth: function(bdata, svgWidth){
+		return svgWidth/(bdata.length * 2) * 0.9;
 	},
-	dataScale: function(data, svgheight){
+	dataScale: function(data, svgHeight){
 		var inputMax = this.max(this.pluck(data, 'value'));
 		var output = [];
-		var scale = this.linearScale({input:[0, inputMax], output:[0, svgheight]})
+		var scale = this.linearScale({input:[0, inputMax], output:[0, svgHeight]})
 		data.forEach(function(obj){
 			obj.height = scale(obj.value)
 			output.push(obj)
@@ -34,7 +34,7 @@ var BarChart = Ractive.extend({
 		var outputRange = obj.output || [0, 1];
 		var factor = (outputRange[1] - outputRange[0]) / (inputDomain[1] - inputDomain[0]);
 		return function(value){
-			return value * factor;
+			return outputRange[0] + (value - inputDomain[0]) * factor;
 		};
 	},
 	max: function(arr){
@@ -49,23 +49,23 @@ var BarChart = Ractive.extend({
 	}
 });
 
-var barchart = new BarChart({
+var barChart = new BarChart({
 	el: '#container',
 	bdata: [{label: 'jan', value: 100},{label: 'feb', value: 50},{label: 'march', value: 200}, {label: 'april', value: 200}, {label: 'may', value: 300},
 		{label: 'jun', value: 200}, {label: 'jul', value:150}, {label:'aug', value: 200}, {label: 'sep', value: 250}, {label: 'oct', value: 180}, {label: 'nov', value:200}, {label: 'dec', value: 350}],
 });
 
 var resize = function updateWindow() {
-	var svgWidth = barchart.nodes.barchart.clientWidth;
-	var svgHeight = barchart.nodes.barchart.clientHeight;
+	var svgWidth = barChart.nodes.barChart.clientWidth;
+	var svgHeight = barChart.nodes.barChart.clientHeight;
 	var hfactor = 0.8;
 	//svgHeight = 800;
 	console.log(svgHeight);
-   barchart.set({
-		svgwidth: svgWidth,
-		svgheight: svgHeight,
-		bdata: barchart.dataScale(barchart.bdata, svgHeight * hfactor),
-		width: barchart.barwidth(barchart.bdata, svgWidth),
+   barChart.set({
+		svgWidth: svgWidth,
+		svgHeight: svgHeight,
+		bdata: barChart.dataScale(barChart.bdata, svgHeight * hfactor),
+		width: barChart.barWidth(barChart.bdata, svgWidth),
 	});
 }
 resize()

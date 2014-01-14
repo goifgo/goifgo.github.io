@@ -14,12 +14,12 @@
 }
 
 /*
-.barchart {
+.barChart {
 	min-height: 20em;
 }
 */
 
-#barchart {
+#barChart {
 	background-color: green;
 	position: fixed;
 	height: 100%;
