@@ -24,7 +24,7 @@ var BarChart = Ractive.extend({
 		var output = [];
 		var scale = this.linearScale({input:[0, inputMax], output:[0, svgHeight]})
 		data.forEach(function(obj){
-			obj.height = scale(obj.value)
+			obj.height = scale(obj.value);
 			output.push(obj)
 		})
 		return output;
@@ -51,8 +51,8 @@ var BarChart = Ractive.extend({
 
 var barChart = new BarChart({
 	el: '#container',
-	bdata: [{label: 'jan', value: 10},{label: 'feb', value: 50},{label: 'mar', value: 200}, {label: 'apr', value: 200}, {label: 'may', value: 300},
-		{label: 'jun', value: 200}, {label: 'jul', value:150}, {label:'aug', value: 200}, {label: 'sep', value: 250}, {label: 'oct', value: 180}, {label: 'nov', value:200}, {label: 'dec', value: 350}],
+	bdata: [{label: 'jan', value: 145},{label: 'feb', value: 153},{label: 'mar', value: 180}, {label: 'apr', value: 160}, {label: 'may', value: 170},
+		{label: 'jun', value: 200}, {label: 'jul', value: 210}, {label:'aug', value: 220}, {label: 'sep', value: 210}, {label: 'oct', value: 240}, {label: 'nov', value:200}, {label: 'dec', value: 250}],
 });
 
 var resize = function updateWindow() {

@@ -18,9 +18,12 @@
 <div class="barChart">
 <div id="barChart">
 	<svg width="{{svgWidth}}" height="{{svgHeight}}">
+		<g id="chartTitle">	
+		<text text-anchor="middle" x="{{svgWidth/2}}" y="{{60 * 1}}">Revenue MoM</text>
+		</g>
 		{{#bdata:i}}
 		<g class="bar" transform="translate({{ (i == 0) ? svgWidth * 0.05 : width * i * 2 + svgWidth * 0.05}},{{svgHeight - height - svgHeight * .08}})">
-			<rect width="{{width}}" height="{{height}}" fill="rgb(0,0,{{value}})"></rect>
+			<rect width="{{width}}" height="{{height}}" fill="rgb(0,0,256)"></rect>
 			<text text-anchor="middle" x="{{width/2}}" y="{{- svgHeight * 0.02}}">{{value}}</text>
 			<text text-anchor="middle" x="{{width/2}}" y="{{height + svgHeight * 0.04}}">{{label}}</text>
 		</g>

@@ -4,21 +4,18 @@
 	padding:0px;
 	border:0px;
 }
-/*
-.bar rect {
-	fill:green;
-}
-*/
 .bar text {
 	fill:white;
 }
-
+#chartTitle text{
+	fill:white;
+	font-size: 2em; 
+}
 /*
 .barChart {
 	min-height: 20em;
 }
 */
-
 #barChart {
 	background-color: #3399CC;
 	position: fixed;
