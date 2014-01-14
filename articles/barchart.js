@@ -51,7 +51,7 @@ var BarChart = Ractive.extend({
 
 var barChart = new BarChart({
 	el: '#container',
-	bdata: [{label: 'jan', value: 10},{label: 'feb', value: 50},{label: 'march', value: 200}, {label: 'april', value: 200}, {label: 'may', value: 300},
+	bdata: [{label: 'jan', value: 10},{label: 'feb', value: 50},{label: 'mar', value: 200}, {label: 'apr', value: 200}, {label: 'may', value: 300},
 		{label: 'jun', value: 200}, {label: 'jul', value:150}, {label:'aug', value: 200}, {label: 'sep', value: 250}, {label: 'oct', value: 180}, {label: 'nov', value:200}, {label: 'dec', value: 350}],
 });
 
