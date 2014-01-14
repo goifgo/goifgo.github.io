@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<title>My Bar Chart</title>
+	<link rel="stylesheet" href="./barchart.css"></link>
+	<style>
+	</style>
+</head>
+
+<body>
+<div id="container"></div>
+
+<script type="text/ractive" id="barchartT">
+<div class="barchart">
+<div id="barchart">
+	<svg width="{{svgwidth}}" height="{{svgheight}}">
+		{{#bdata:i}}
+		<g class="bar" transform="translate({{ (i == 0) ? 30 : width * i * 2 + 30}},{{svgheight - 20 - height}})">
+			<rect width="{{width}}" height="{{height}}" fill="rgb(0,0,{{value}})"></rect>
+			<text text-anchor="middle" x="{{width/2}}" y="-10">{{value}}</text>
+		</g>
+		{{/bdata}}
+	</svg>
+</div>
+</div>
+</script>
+<script src="../vendor/vendor.js"></script>
+<script src="./barchart.js"></script>
+</body>
+</html>
