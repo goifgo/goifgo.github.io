@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8" />
    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<title>My Bar Chart</title>
 	<link rel="stylesheet" href="./barchart.css"></link>
@@ -15,21 +15,28 @@
 <div id="container"></div>
 
 <script type="text/ractive" id="barChartT">
-<div class="barChart">
 <div id="barChart">
 	<svg width="{{svgWidth}}" height="{{svgHeight}}">
 		<g id="chartTitle">	
-		<text text-anchor="middle" x="{{svgWidth/2}}" y="{{60 * 1}}">Revenue MoM</text>
+			<text text-anchor="middle" x="{{svgWidth/2}}" y="{{svgHeight * 0.08}}">Revenue MoM</text>
+		</g>
+		<g id="choose" on-tap="name">	
+			<text text-anchor="start" x="{{svgWidth/2 * 1.5}}" y="{{svgHeight * .08}}">Last 12 Months</text>
+			<text text-anchor="start" x="{{svgWidth/2 * 1.5}}" y="{{svgHeight * .12}}">Last 12 Months</text>
 		</g>
 		{{#bdata:i}}
-		<g class="bar" transform="translate({{ (i == 0) ? svgWidth * 0.05 : width * i * 2 + svgWidth * 0.05}},{{svgHeight - height - svgHeight * .08}})">
+		<g class="bar" transform="translate({{ (i == 0) ? svgWidth * 0.05 : width * i * 2 + svgWidth * 0.05}},{{svgHeight - height - svgHeight * .1}})">
 			<rect width="{{width}}" height="{{height}}" fill="rgb(0,0,256)"></rect>
 			<text text-anchor="middle" x="{{width/2}}" y="{{- svgHeight * 0.02}}">{{value}}</text>
 			<text text-anchor="middle" x="{{width/2}}" y="{{height + svgHeight * 0.04}}">{{label}}</text>
 		</g>
 		{{/bdata}}
+		<g transform="translate({{svgWidth/2}},{{svgHeight * 0.98}})">
+			<circle cx="0" cy="0" r="{{svgWidth * 0.005}}" fill="white"></circle>
+			<circle cx="{{svgWidth * 0.005 * 4}}" cy="0" r="{{svgWidth * 0.005}}"></circle>
+			<circle cx="{{svgWidth * 0.005 * 8}}" cy="0" r="{{svgWidth * 0.005}}"></circle>
+		</g>
 	</svg>
-</div>
 </div>
 </script>
 <script src="../vendor/vendor.js"></script>

@@ -1,4 +1,10 @@
 "use strict"
+var bdata = {
+	latest: [{label: 'jan', value: 145},{label: 'feb', value: 153},{label: 'mar', value: 180}, {label: 'apr', value: 160}, {label: 'may', value: 170},
+		{label: 'jun', value: 200}, {label: 'jul', value: 210}, {label:'aug', value: 220}, {label: 'sep', value: 210}, {label: 'oct', value: 240}, {label: 'nov', value:200}, {label: 'dec', value: 250}],
+	old: [{label: 'jan', value: 130},{label: 'feb', value: 153},{label: 'mar', value: 180}, {label: 'apr', value: 160}, {label: 'may', value: 170},
+		{label: 'jun', value: 200}, {label: 'jul', value: 210}, {label:'aug', value: 220}, {label: 'sep', value: 210}, {label: 'oct', value: 240}, {label: 'nov', value:200}, {label: 'dec', value: 150}],
+}
 
 var BarChart = Ractive.extend({
 	template: '#barChartT',
@@ -12,6 +18,17 @@ var BarChart = Ractive.extend({
 		this.set('width', this.barWidth(this.bdata, this.svgWidth));
 		console.log(this.svgHeight);
 		*/
+		this.on({
+			name: function(event){
+				console.log('hi dear!')
+				var svgWidth = barChart.nodes.barChart.clientWidth;
+				var svgHeight = barChart.nodes.barChart.clientHeight;
+				self.set({
+					bdata:self.dataScale(bdata.old, svgHeight),
+					width:self.barWidth(bdata.old, svgWidth),
+				})
+			}
+		})
 	},
 	name: function(){
 		console.log(this.bdata);
@@ -22,7 +39,7 @@ var BarChart = Ractive.extend({
 	dataScale: function(data, svgHeight){
 		var inputMax = this.max(this.pluck(data, 'value'));
 		var output = [];
-		var scale = this.linearScale({input:[0, inputMax], output:[0, svgHeight]})
+		var scale = this.linearScale({input:[0, inputMax], output:[0, svgHeight * 0.7]})
 		data.forEach(function(obj){
 			obj.height = scale(obj.value);
 			output.push(obj)
@@ -51,21 +68,19 @@ var BarChart = Ractive.extend({
 
 var barChart = new BarChart({
 	el: '#container',
-	bdata: [{label: 'jan', value: 145},{label: 'feb', value: 153},{label: 'mar', value: 180}, {label: 'apr', value: 160}, {label: 'may', value: 170},
-		{label: 'jun', value: 200}, {label: 'jul', value: 210}, {label:'aug', value: 220}, {label: 'sep', value: 210}, {label: 'oct', value: 240}, {label: 'nov', value:200}, {label: 'dec', value: 250}],
+	bdata: bdata.latest
 });
 
 var resize = function updateWindow() {
 	var svgWidth = barChart.nodes.barChart.clientWidth;
 	var svgHeight = barChart.nodes.barChart.clientHeight;
-	var hfactor = 0.8;
 	//svgHeight = 800;
 	console.log(svgHeight);
    barChart.set({
 		svgWidth: svgWidth,
 		svgHeight: svgHeight,
-		bdata: barChart.dataScale(barChart.bdata, svgHeight * hfactor),
-		width: barChart.barWidth(barChart.bdata, svgWidth),
+		bdata: barChart.dataScale(bdata.latest, svgHeight),
+		width: barChart.barWidth(bdata.latest, svgWidth),
 	});
 }
 resize()
