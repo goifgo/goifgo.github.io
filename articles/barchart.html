@@ -20,9 +20,9 @@
 		<g id="chartTitle">	
 			<text text-anchor="middle" x="{{svgWidth/2}}" y="{{svgHeight * 0.08}}">Revenue MoM</text>
 		</g>
-		<g id="choose" on-tap="name">	
-			<text text-anchor="start" x="{{svgWidth/2 * 1.5}}" y="{{svgHeight * .08}}">Last 12 Months</text>
-			<text text-anchor="start" x="{{svgWidth/2 * 1.5}}" y="{{svgHeight * .12}}">Last 12 Months</text>
+		<g id="choose">	
+			<text on-tap="lastyear" text-anchor="start" x="{{svgWidth/2 * 1.5}}" y="{{svgHeight * .08}}">Last Yr</text>
+			<text on-tap="currentyear" text-anchor="start" x="{{svgWidth/2 * 1.5}}" y="{{svgHeight * .12}}">Current Yr</text>
 		</g>
 		{{#bdata:i}}
 		<g class="bar" transform="translate({{ (i == 0) ? svgWidth * 0.05 : width * i * 2 + svgWidth * 0.05}},{{svgHeight - height - svgHeight * .1}})">

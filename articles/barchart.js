@@ -6,28 +6,21 @@ var bdata = {
 		{label: 'jun', value: 200}, {label: 'jul', value: 210}, {label:'aug', value: 220}, {label: 'sep', value: 210}, {label: 'oct', value: 240}, {label: 'nov', value:200}, {label: 'dec', value: 150}],
 }
 
+// Column Bar Chart
 var BarChart = Ractive.extend({
 	template: '#barChartT',
 	init: function(options) {
 		var self = this;
-		this.bdata = options.bdata;
-		/*
-		this.set('bdata', this.bdata);
-		this.set('svgWidth', this.svgWidth);
-		this.set('svgHeight', this.svgHeight);
-		this.set('width', this.barWidth(this.bdata, this.svgWidth));
-		console.log(this.svgHeight);
-		*/
+		this.drawChart(bdata.latest)
 		this.on({
-			name: function(event){
-				console.log('hi dear!')
-				var svgWidth = barChart.nodes.barChart.clientWidth;
-				var svgHeight = barChart.nodes.barChart.clientHeight;
-				self.set({
-					bdata:self.dataScale(bdata.old, svgHeight),
-					width:self.barWidth(bdata.old, svgWidth),
-				})
-			}
+			lastyear: function(event){
+				console.log('Last year!')
+				self.drawChart(bdata.old);
+			},
+			currentyear: function(event){
+				console.log('Current year!')
+				self.drawChart(bdata.latest);
+			},
 		})
 	},
 	name: function(){
@@ -63,6 +56,17 @@ var BarChart = Ractive.extend({
 			output.push(obj[key]);
 		});
 		return output;
+	},
+	drawChart: function(data){
+		var svgWidth = this.nodes.barChart.clientWidth;
+		var svgHeight = this.nodes.barChart.clientHeight;
+		var self = this;
+		this.set({
+			svgWidth: svgWidth,
+			svgHeight: svgHeight,
+			bdata: self.dataScale(data, svgHeight),
+			width: self.barWidth(data, svgWidth),
+		});
 	}
 });
 
@@ -70,18 +74,7 @@ var barChart = new BarChart({
 	el: '#container',
 	bdata: bdata.latest
 });
-
-var resize = function updateWindow() {
-	var svgWidth = barChart.nodes.barChart.clientWidth;
-	var svgHeight = barChart.nodes.barChart.clientHeight;
-	//svgHeight = 800;
-	console.log(svgHeight);
-   barChart.set({
-		svgWidth: svgWidth,
-		svgHeight: svgHeight,
-		bdata: barChart.dataScale(bdata.latest, svgHeight),
-		width: barChart.barWidth(bdata.latest, svgWidth),
-	});
+var resize = function(){
+	barChart.drawChart(bdata.latest);
 }
-resize()
-window.onresize = resize 
+window.onresize = resize;

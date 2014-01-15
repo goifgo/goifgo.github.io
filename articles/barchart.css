@@ -11,14 +11,11 @@
 	fill:white;
 	font-size: 2em; 
 }
-/*
-.barChart {
-	min-height: 20em;
-}
-*/
+
 #barChart {
 	background-color: #3399CC;
 	position: fixed;
 	height: 100%;
 	width: 100%;
+	/*display:none;*/
 }
