@@ -1,31 +1,12 @@
 "use strict"
-/*
-var bdata = {
-	latest: [{label: 'jan', values: [125,145]},{label: 'feb', values: [143,153]},{label: 'mar', values: [170,180]}, {label: 'apr', values: [150,160]}, {label: 'may', values: [160,170]},
-		{label: 'jun', values: [185,200]}]
-}
-
-var bdata = {
-	latest: [{label: 'jan', values: [145]},{label: 'feb', values: [153]},{label: 'mar', values: [180]}, {label: 'apr', values: [160]}, {label: 'may', values: [170]},
-		{label: 'jun', values: [200]}]
-}
-*/
-
-var bdata = {
-	latest: [{label: 'jan', values: [125,145,135]},{label: 'feb', values: [143,153,160]},{label: 'mar', values: [170,180,185]}, {label: 'apr', values: [150,160,180]}, {label: 'may', values: [160,170,180]},
-		{label: 'jun', values: [185,200,250]}],
-	old: [{label: 'jan', values: [150]},{label: 'feb', values: [143]},{label: 'mar', values: [185]}, {label: 'apr', values: [160]}, {label: 'may', values: [180]},{label: 'jun', values: [200]},
-			{label: 'jul', values: [170]},{label: 'aug', values: [180]},{label: 'sep', values: [250]}, {label: 'Oct', values: [200]}, {label: 'nov', values: [190]},{label: 'dec', values: [280]}]
-}
-
 // Single Or Multi Column Bar Chart
 var BarChart = Ractive.extend({
-	template: '#barChartT',
 	init: function(options) {
 		var self = this;
 		this.bdata = options.bdata;
 		this.cdata = options.bdata.latest;
 		this.legend = options.legend;
+		this.divId = options.divId;
 		this.isStackBar = options.isStackBar || false;
 		this.drawChart(this.bdata.latest);
 		this.on({
@@ -132,8 +113,8 @@ var BarChart = Ractive.extend({
 		return output;
 	},
 	drawChart: function(){
-		var svgWidth = this.nodes.barChart.clientWidth;
-		var svgHeight = this.nodes.barChart.clientHeight;
+		var svgWidth = this.nodes[this.divId].clientWidth;
+		var svgHeight = this.nodes[this.divId].clientHeight;
 		var self = this;
 		this.set({
 			svgWidth: svgWidth,
@@ -145,17 +126,24 @@ var BarChart = Ractive.extend({
 		});
 	}
 });
-
-var barChart = new BarChart({
+var bdata = {
+	latest: [{label: 'jan', values: [125,145,135]},{label: 'feb', values: [143,153,160]},{label: 'mar', values: [170,180,185]}, {label: 'apr', values: [150,160,180]}, {label: 'may', values: [160,170,180]},
+		{label: 'jun', values: [185,200,250]}],
+	old: [{label: 'jan', values: [150]},{label: 'feb', values: [143]},{label: 'mar', values: [185]}, {label: 'apr', values: [160]}, {label: 'may', values: [180]},{label: 'jun', values: [200]},
+			{label: 'jul', values: [170]},{label: 'aug', values: [180]},{label: 'sep', values: [250]}, {label: 'Oct', values: [200]}, {label: 'nov', values: [190]},{label: 'dec', values: [280]}]
+}
+var cfgObj = {
 	el: '#container',
+	template: '#barChartT',
+	divId: 'barChart', // Required while setting svgWidth and svgHeight via nodes 
 	bdata: bdata,
 	isStackBar: true,
 	legend: {
 		colors:['green', 'blue', 'rgba(255,0,0,0.6)'],
 		colorLables: ['Chemestry', 'Physics', 'Maths'],
 	},
-});
-
+}
+var barChart = new BarChart(cfgObj);
 var resize = function(){
 	barChart.drawChart();
 }
