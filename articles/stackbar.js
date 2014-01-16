@@ -151,7 +151,7 @@ var barChart = new BarChart({
 	bdata: bdata,
 	isStackBar: true,
 	legend: {
-		colors:['green', 'blue', 'yellow'],
+		colors:['green', 'blue', 'rgba(255,0,0,0.6)'],
 		colorLables: ['Chemestry', 'Physics', 'Maths'],
 	},
 });
