@@ -1,0 +1,21 @@
+* {
+	font-size: 20px;
+	margin:0px;
+	padding:0px;
+	border:0px;
+}
+.bar text, .label text {
+	fill:white;
+}
+#chartTitle text{
+	fill:white;
+	font-size: 2em; 
+}
+
+#barChart {
+	background-color: #3399CC;
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	/*display:none;*/
+}

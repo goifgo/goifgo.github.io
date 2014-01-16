@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<title>My Bar Chart</title>
-	<link rel="stylesheet" href="./barchart.css"></link>
+	<link rel="stylesheet" href="./rbarchart.css"></link>
 	<style>
 	</style>
 </head>
@@ -17,7 +17,7 @@
 <script type="text/ractive" id="barChartT">
 <div id="barChart">
 	<svg width="{{svgWidth}}" height="{{svgHeight}}">
-		<g id="chartTitle">	
+		<g id="chartTitle">
 			<text text-anchor="middle" x="{{svgWidth/2}}" y="{{svgHeight * 0.08}}">Revenue MoM</text>
 		</g>
 		<g id="choose">	
@@ -25,11 +25,17 @@
 			<text on-tap="currentyear" text-anchor="start" x="{{svgWidth/2 * 1.5}}" y="{{svgHeight * .12}}">Current Yr</text>
 		</g>
 		{{#mydata:i}}
-		<g class="bar" transform="translate({{ (i == 0) ? svgWidth * 0.05 : width * i * 2 + svgWidth * 0.05}},{{svgHeight - height - svgHeight * .1}})">
-			<rect width="{{width}}" height="{{height}}" fill="rgb(0,0,256)"></rect>
-			<text text-anchor="middle" x="{{width/2}}" y="{{- svgHeight * 0.02}}">{{value}}</text>
-			<text text-anchor="middle" x="{{width/2}}" y="{{height + svgHeight * 0.04}}">{{label}}</text>
-		</g>
+			<g>
+				{{#values:j}}
+					<g class="bar" transform="translate({{ (i == 0) ? svgWidth * 0.05 : width * i * 2 + svgWidth * 0.05}},{{svgHeight - height[j] - svgHeight * .1}})">
+						<rect x={{width/count * j}} width="{{width/count}}" height="{{height[j]}}" fill="{{legend.colors[j]}}"></rect>
+						<text text-anchor="middle" x="{{width/count * (j + 0.5) }}" y="{{- svgHeight * 0.02}}">{{values[j]}}</text>
+					</g>
+				{{/values}}
+				<g class="label" transform="translate({{ (i == 0) ? svgWidth * 0.05 : width * i * 2 + svgWidth * 0.05}},{{svgHeight*.94}})">
+					<text text-anchor="middle" x="{{width/2}}">{{label}}</text>
+				</g>
+			</g>
 		{{/mydata}}
 		<g transform="translate({{svgWidth/2}},{{svgHeight * 0.98}})">
 			<circle cx="0" cy="0" r="{{svgWidth * 0.005}}" fill="white"></circle>
@@ -40,6 +46,6 @@
 </div>
 </script>
 <script src="../vendor/vendor.js"></script>
-<script src="./barchart.js"></script>
+<script src="./rbarchart.js"></script>
 </body>
 </html>
