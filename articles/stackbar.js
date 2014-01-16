@@ -8,19 +8,29 @@ var BarChart = Ractive.extend({
 		this.legend = options.legend;
 		this.divId = options.divId;
 		this.isStackBar = options.isStackBar || false;
-		this.drawChart(this.bdata.latest);
+		this.ichoose = [false,false,true];
+		this.drawChart();
 		this.on({
-			single: function(event){
+			single: function(e){
+				console.log(self.ichooseM())
+				self.ichooseM([true,false,false])
+				console.log(self.ichooseM())
 				self.stackBar(false)
 				self.cdataM(self.bdata.old)
 				self.drawChart();
 			},
 			multiple: function(event){
+				console.log(self.ichooseM())
+				self.ichooseM([false,true,false])
+				console.log(self.ichooseM())
 				self.stackBar(false)
 				self.cdataM(self.bdata.latest)
 				self.drawChart();
 			},
 			stack: function(event){
+				console.log(self.ichooseM())
+				self.ichooseM([false,false,true])
+				console.log(self.ichooseM())
 				self.stackBar(true)
 				self.cdataM(self.bdata.latest)
 				self.drawChart();
@@ -28,11 +38,15 @@ var BarChart = Ractive.extend({
 		})
 	},
 	barWidth: function(svgWidth){
-		return svgWidth/(this.cdataM().length * 2) * .97;
+		return svgWidth/(this.cdataM().length * 2) * .95;
 	},
 	cdataM: function(data){
 		if (!arguments.length) return this.cdata;
 		this.cdata = data;
+	},
+	ichooseM: function(arr){
+		if (!arguments.length) return this.ichoose;
+		this.ichoose = arr;
 	},
 	stackBar: function (bool){
 		if (!arguments.length) return this.isStackBar;
@@ -116,6 +130,9 @@ var BarChart = Ractive.extend({
 		var svgWidth = this.nodes[this.divId].clientWidth;
 		var svgHeight = this.nodes[this.divId].clientHeight;
 		var self = this;
+		var fRadius = svgWidth * 0.005;
+		var tRadius = svgWidth * 0.004;
+		var tcx = svgWidth * 0.5; 
 		this.set({
 			svgWidth: svgWidth,
 			svgHeight: svgHeight,
@@ -123,6 +140,15 @@ var BarChart = Ractive.extend({
 			width: self.barWidth(svgWidth),
 			legend: self.legend,
 			isStackBar: self.stackBar(),
+			ichoose: self.ichooseM(),
+			// calculated here, insted of template to prevent console.log error
+			fRadius: fRadius,
+			fcx: [0, fRadius * 4, fRadius * 8],
+			tRadius: tRadius,
+			tcx: [tcx * 0.78, tcx * 0.98, tcx * 1.18],
+			tcy: svgHeight * 0.115,
+			ty: svgHeight * 0.12,
+			tx: [tcx * 0.8, tcx * 1, tcx * 1.2],
 		});
 	}
 });

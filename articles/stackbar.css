@@ -11,9 +11,14 @@
 	width: 100%;
 	/*display:none;*/
 }
-text {
+.bars text, #chartTitle text{
 	fill:white;
 }
+
+#choose text{
+	fill:rgba(256,256,256,0.7);
+}
+
 #chartTitle text{
 	font-size: 2em; 
 }

@@ -18,16 +18,25 @@
 <div id="barChart">
 	<svg width="{{svgWidth}}" height="{{svgHeight}}">
 		<g id="chartTitle">
-			<text text-anchor="middle" x="{{svgWidth/2}}" y="{{svgHeight * 0.08}}">Revenue MoM</text>
+			<text text-anchor="middle" x="{{svgWidth/2}}" y="{{svgHeight * 0.08}}">Revenue</text>
 		</g>
 		<g id="choose">	
-			<text on-tap="single" text-anchor="middle" x="{{svgWidth/2 * 0.8}}" y="{{svgHeight * .12}}">single</text>
-			<text on-tap="multiple" text-anchor="middle" x="{{svgWidth/2 * 1}}" y="{{svgHeight * 0.12}}">multiple</text>
-			<text on-tap="stack" text-anchor="middle" x="{{svgWidth/2 * 1.2}}" y="{{svgHeight * 0.12}}">stack</text>
+			<g on-tap="single">
+				<circle cx="{{tcx.0}}" cy="{{tcy}}" r="{{tRadius}}" fill="{{ichoose.0 ? 'white' : 'black'}}"></circle>
+				<text x="{{tx.0}}" y="{{ty}}" text-anchor="start">single</text>
+			</g>
+			<g on-tap="multiple">
+				<circle cx="{{tcx.1}}" cy="{{tcy}}" r="{{tRadius}}" fill="{{ichoose.1 ? 'white' : 'black'}}"></circle>
+				<text x="{{tx.1}}" y="{{ty}}" text-anchor="start">multi</text>
+			</g>
+			<g on-tap="stack">
+				<circle cx="{{tcx.2}}" cy="{{tcy}}" r="{{tRadius}}" fill="{{ichoose.2 ? 'white' : 'black'}}"></circle>
+				<text x="{{tx.2}}" y="{{ty}}" text-anchor="start">stack</text>
+			</g>
 		</g>
 		{{^isStackBar}}
 			{{#mydata:i}}
-				<g>
+				<g class="bars">
 					{{#values:j}}
 						<g class="bar" transform="translate({{ (i == 0) ? svgWidth * 0.05 : width * i * 2 + svgWidth * 0.05}},{{svgHeight - height[j] - svgHeight * .1}})">
 							<rect x={{width/count * j}} width="{{width/count}}" height="{{height[j]}}" fill="{{legend.colors[j]}}"></rect>
@@ -42,7 +51,7 @@
 		{{/isStackBar}}
 		{{#isStackBar}}
 			{{#mydata:i}}
-				<g>
+				<g class="bars">
 					<g class="bar" transform="translate({{ (i == 0) ? svgWidth * 0.05 : width * i * 2 + svgWidth * 0.05}},{{svgHeight - totalHeight - svgHeight * .1}})">
 						{{#values:j}}
 								<rect  y={{accuHeights[j]}} width="{{width}}" height="{{height[j]}}" fill="{{legend.colors[j]}}"></rect>
@@ -51,7 +60,6 @@
 					<g class="barValue" transform="translate({{ (i == 0) ? svgWidth * 0.05 : width * i * 2 + svgWidth * 0.05}},{{svgHeight - totalHeight - svgHeight * .1}})">
 						<text text-anchor="middle" x="{{width * 0.5}}" y="{{- svgHeight * 0.02}}">{{totalValue}}</text>
 					</g>
-					</g>
 					<g class="label" transform="translate({{ (i == 0) ? svgWidth * 0.05 : width * i * 2 + svgWidth * 0.05}},{{svgHeight*.94}})">
 						<text text-anchor="middle" x="{{width * 0.5}}">{{label}}</text>
 					</g>
@@ -59,9 +67,9 @@
 			{{/mydata}}
 		{{/isStackBar}}
 		<g transform="translate({{svgWidth/2}},{{svgHeight * 0.98}})">
-			<circle cx="0" cy="0" r="{{svgWidth * 0.005}}" fill="white"></circle>
-			<circle cx="{{svgWidth * 0.005 * 4}}" cy="0" r="{{svgWidth * 0.005}}"></circle>
-			<circle cx="{{svgWidth * 0.005 * 8}}" cy="0" r="{{svgWidth * 0.005}}"></circle>
+			{{#fcx}}
+				<circle cx="{{.}}" cy="0" r="{{fRadius}}" fill="white"></circle>
+			{{/fcx}}
 		</g>
 	</svg>
 </div>
