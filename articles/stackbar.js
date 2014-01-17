@@ -146,12 +146,12 @@ var BarChart = Ractive.extend({
 			slides: self.slidesM(),
 			// calculated here, instead of template to prevent console.log error
 			fRadius: fRadius,
-			fcx: self.alignMiddle(0, 5, fRadius * 4),
+			fcx: self.alignMiddle(0, self.slidesM().length, fRadius * 4),
 			tRadius: tRadius,
-			tcx: self.alignMiddle(tcx, 3, tRadius * 20),
+			tcx: self.alignMiddle(tcx, self.ichooseM().length, tRadius * 25),
 			tcy: svgHeight * 0.115,
 			ty: svgHeight * 0.12,
-			tx: self.alignMiddle(tcx * 1.02, 3, tRadius * 20)
+			tx: self.alignMiddle(tcx * 1.02, self.ichooseM().length, tRadius * 25)
 		});
 	},
 	// (50,7,5) --> [35,   40,   45,   50,   55,   60,   65]
