@@ -7,9 +7,10 @@ var BarChart = Ractive.extend({
 		this.cdata = options.bdata.latest;
 		this.legend = options.legend;
 		this.divId = options.divId;
+		this.chartTitle = options.chartTitle;
 		this.isStackBar = options.isStackBar || false;
 		this.ichoose = [0,0,1];
-		this.slides = [1,0,0];
+		this.slides = [1,0,0,0,0];
 		this.drawChart();
 		this.on({
 			single: function(e){
@@ -137,21 +138,32 @@ var BarChart = Ractive.extend({
 			svgHeight: svgHeight,
 			mydata: self.dataScale(svgHeight),
 			width: self.barWidth(svgWidth),
+			chartTitle: self.chartTitle,
 			legend: self.legend,
 			isStackBar: self.stackBar(),
 			ichoose: self.ichooseM(),
 			chooseLabels: ['single', 'multi', 'stack'],
 			slides: self.slidesM(),
-			// calculated here, insted of template to prevent console.log error
+			// calculated here, instead of template to prevent console.log error
 			fRadius: fRadius,
-			fcx: [0, fRadius * 4, fRadius * 8],
+			fcx: self.alignMiddle(0, 5, fRadius * 4),
 			tRadius: tRadius,
-			tcx: [tcx * 0.78, tcx * 0.98, tcx * 1.18],
+			tcx: self.alignMiddle(tcx, 3, tRadius * 20),
 			tcy: svgHeight * 0.115,
 			ty: svgHeight * 0.12,
-			tx: [tcx * 0.8, tcx * 1, tcx * 1.2],
+			tx: self.alignMiddle(tcx * 1.02, 3, tRadius * 20)
 		});
-	}
+	},
+	// (50,7,5) --> [35,   40,   45,   50,   55,   60,   65]
+	// (50,8,5) --> [32.5, 37.5, 42.5, 47.5, 52.5, 57.5, 62.5, 67.5]
+	alignMiddle: function(middlePoint, itemCount, change){
+		 var center = itemCount/2 + 0.5;
+		 var output = [];
+		 for (var i=0; i < itemCount; i++) {
+			output.push(middlePoint - ((center - i - 1) * change))
+		 }
+		 return output;
+	},
 });
 var bdata = {
 	latest: [{label: 'jan', values: [125,145,135]},{label: 'feb', values: [143,153,160]},{label: 'mar', values: [170,180,185]}, {label: 'apr', values: [150,160,180]}, {label: 'may', values: [160,170,180]},
@@ -163,6 +175,7 @@ var cfgObj = {
 	el: '#container',
 	template: '#barChartT',
 	divId: 'barChart', // Required while setting svgWidth and svgHeight via nodes 
+	chartTitle: 'Revenue MoM',
 	bdata: bdata,
 	isStackBar: true,
 	legend: {

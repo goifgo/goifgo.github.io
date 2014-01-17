@@ -18,7 +18,7 @@
 <div id="barChart">
 	<svg width="{{svgWidth}}" height="{{svgHeight}}">
 		<g id="chartTitle">
-			<text text-anchor="middle" x="{{svgWidth/2}}" y="{{svgHeight * 0.08}}">Revenue</text>
+			<text text-anchor="middle" x="{{svgWidth/2}}" y="{{svgHeight * 0.08}}">{{chartTitle}}</text>
 		</g>
 		<g id="choose">	
 			{{#chooseLabels:i}}
@@ -60,7 +60,7 @@
 				</g>
 			{{/mydata}}
 		{{/isStackBar}}
-		<g transform="translate({{svgWidth/2}},{{svgHeight * 0.98}})">
+		<g transform="translate({{svgWidth * 0.5}},{{svgHeight * 0.97}})">
 			{{#fcx:i}}
 				<circle cx="{{.}}" cy="0" r="{{fRadius}}" fill="{{slides[i] ? 'white' : 'black'}}"></circle>
 			{{/fcx}}
