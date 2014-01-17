@@ -8,29 +8,24 @@ var BarChart = Ractive.extend({
 		this.legend = options.legend;
 		this.divId = options.divId;
 		this.isStackBar = options.isStackBar || false;
-		this.ichoose = [false,false,true];
+		this.ichoose = [0,0,1];
+		this.slides = [1,0,0];
 		this.drawChart();
 		this.on({
 			single: function(e){
-				console.log(self.ichooseM())
-				self.ichooseM([true,false,false])
-				console.log(self.ichooseM())
+				self.ichooseM([1,0,0])
 				self.stackBar(false)
 				self.cdataM(self.bdata.old)
 				self.drawChart();
 			},
-			multiple: function(event){
-				console.log(self.ichooseM())
-				self.ichooseM([false,true,false])
-				console.log(self.ichooseM())
+			multi: function(event){
+				self.ichooseM([0,1,0])
 				self.stackBar(false)
 				self.cdataM(self.bdata.latest)
 				self.drawChart();
 			},
 			stack: function(event){
-				console.log(self.ichooseM())
-				self.ichooseM([false,false,true])
-				console.log(self.ichooseM())
+				self.ichooseM([0,0,1])
 				self.stackBar(true)
 				self.cdataM(self.bdata.latest)
 				self.drawChart();
@@ -47,6 +42,10 @@ var BarChart = Ractive.extend({
 	ichooseM: function(arr){
 		if (!arguments.length) return this.ichoose;
 		this.ichoose = arr;
+	},
+	slidesM: function(arr){
+		if (!arguments.length) return this.slides;
+		this.slides = arr;
 	},
 	stackBar: function (bool){
 		if (!arguments.length) return this.isStackBar;
@@ -141,6 +140,8 @@ var BarChart = Ractive.extend({
 			legend: self.legend,
 			isStackBar: self.stackBar(),
 			ichoose: self.ichooseM(),
+			chooseLabels: ['single', 'multi', 'stack'],
+			slides: self.slidesM(),
 			// calculated here, insted of template to prevent console.log error
 			fRadius: fRadius,
 			fcx: [0, fRadius * 4, fRadius * 8],

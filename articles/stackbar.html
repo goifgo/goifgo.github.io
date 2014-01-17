@@ -21,18 +21,12 @@
 			<text text-anchor="middle" x="{{svgWidth/2}}" y="{{svgHeight * 0.08}}">Revenue</text>
 		</g>
 		<g id="choose">	
-			<g on-tap="single">
-				<circle cx="{{tcx.0}}" cy="{{tcy}}" r="{{tRadius}}" fill="{{ichoose.0 ? 'white' : 'black'}}"></circle>
-				<text x="{{tx.0}}" y="{{ty}}" text-anchor="start">single</text>
+			{{#chooseLabels:i}}
+			<g on-tap="{{.}}">
+				<circle cx="{{tcx[i]}}" cy="{{tcy}}" r="{{tRadius}}" fill="{{ichoose[i] ? 'white' : 'black'}}"></circle>
+				<text x="{{tx[i]}}" y="{{ty}}" text-anchor="start">{{.}}</text>
 			</g>
-			<g on-tap="multiple">
-				<circle cx="{{tcx.1}}" cy="{{tcy}}" r="{{tRadius}}" fill="{{ichoose.1 ? 'white' : 'black'}}"></circle>
-				<text x="{{tx.1}}" y="{{ty}}" text-anchor="start">multi</text>
-			</g>
-			<g on-tap="stack">
-				<circle cx="{{tcx.2}}" cy="{{tcy}}" r="{{tRadius}}" fill="{{ichoose.2 ? 'white' : 'black'}}"></circle>
-				<text x="{{tx.2}}" y="{{ty}}" text-anchor="start">stack</text>
-			</g>
+			{{/chooseLabels}}
 		</g>
 		{{^isStackBar}}
 			{{#mydata:i}}
@@ -67,8 +61,8 @@
 			{{/mydata}}
 		{{/isStackBar}}
 		<g transform="translate({{svgWidth/2}},{{svgHeight * 0.98}})">
-			{{#fcx}}
-				<circle cx="{{.}}" cy="0" r="{{fRadius}}" fill="white"></circle>
+			{{#fcx:i}}
+				<circle cx="{{.}}" cy="0" r="{{fRadius}}" fill="{{slides[i] ? 'white' : 'black'}}"></circle>
 			{{/fcx}}
 		</g>
 	</svg>
