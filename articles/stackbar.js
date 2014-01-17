@@ -76,6 +76,7 @@ var BarChart = Ractive.extend({
 		});
 		return output;
 	},
+	// {input: [], output: []} --> function
 	linearScale: function(obj){
 		var inputDomain = obj.input || [0, 1];
 		var outputRange = obj.output || [0, 1];
