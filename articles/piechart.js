@@ -1,6 +1,6 @@
 "use strict"
 var bdata = {
-	latest: [{label:'jan', values:[125,145,135]}],
+	latest: [{label:'jan', values:[60,45,35]}],
 	old: [{label: 'jan', values: [125,145,135]},{label: 'feb', values: [143,153,160]},{label: 'mar', values: [170,180,185]}, {label: 'apr', values: [150,160,180]}, {label: 'may', values: [160,170,180]},
 		{label: 'jun', values: [185,200,250]}]
 }
@@ -32,14 +32,14 @@ var PieChart = Ractive.extend({
 		arcs.forEach(function(d, i){
 			var a0 = d.startAngle;
 			var a1 = d.endAngle;
-			var c0 = Math.cos(a0); // cos is for x
-			var s0 = Math.sin(a0); // sin is for y
-			var c1 = Math.cos(a1);
-			var s1 = Math.sin(a1);
+			var x0 = Math.cos(a0) * r; // cos is for x
+			var y0 = Math.sin(a0) * r; // sin is for y
+			var x1 = Math.cos(a1) * r;
+			var y1 = Math.sin(a1) * r;
 			sectors[i] = {
 				color: self.legend.colors[i], 
-				path: "M" + r * c0 + "," + s0
-				+ "A" + r + "," + r + " 0 " + "0" + ",1 " + r * c1 + "," + r*s1
+				path: "M" + x0 + "," + y0
+				+ "A" + r + "," + r + " 0 " + "0" + ",1 " + x1 + "," + y1
 				+ "L" + "0,0"
 				+ "Z"
 			}
@@ -103,3 +103,11 @@ var resize = function(){
 	pieChart.drawChart();
 };
 window.onresize = resize;
+
+// Pie Chart Notes
+// Step1: Findout radians per unit of data i.e. k = 2 * PI / sum(array)
+// Step2: Findout arc startAngle and endAngle i.e startAngle = 0 and endAngle = k * array[i] . For next item endAngle become startAngle
+// Step3: Findout (x,y) coordinates of arcAngles i.e x = cos(angle) and y = sin(angle)
+// Step4: Multiply (x,y) values with radius i.e multiply unit circle values with radius
+// Step5: Draw Path
+
