@@ -1,6 +1,6 @@
 "use strict"
 var bdata = {
-	latest: [{label:'jan', values:[175,45,35]}],
+	latest: [{label:'jan', values:[70,20,10]}],
 	old: [{label: 'jan', values: [125,145,135]},{label: 'feb', values: [143,153,160]},{label: 'mar', values: [170,180,185]}, {label: 'apr', values: [150,160,180]}, {label: 'may', values: [160,170,180]},
 		{label: 'jun', values: [185,200,250]}]
 }
@@ -67,15 +67,6 @@ var PieChart = Ractive.extend({
 			}
 		});
 		return arcs;
-	},
-	// {input: [], output: []} --> function
-	linearScale: function(obj){
-		var inputDomain = obj.input || [0, 1];
-		var outputRange = obj.output || [0, 1];
-		var factor = (outputRange[1] - outputRange[0]) / (inputDomain[1] - inputDomain[0]);
-		return function(value){
-			return outputRange[0] + (value - inputDomain[0]) * factor;
-		};
 	},
 });
 
