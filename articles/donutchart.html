@@ -5,7 +5,7 @@
    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 	<meta name="apple-mobile-web-app-capable" content="yes">
-	<title>My Bar Chart</title>
+	<title>Donut Chart</title>
 	<link rel="stylesheet" href="./donutchart.css"></link>
 	<style>
 	</style>
@@ -27,7 +27,7 @@
 			</g>
 		{{/sectors}}
 		<g id="origin">
-			<text text-anchor="middle" x="{{svgWidth/2}}" y="{{svgHeight * 0.5}}">100 Billions</text>
+			<text text-anchor="middle" x="{{svgWidth/2}}" y="{{svgHeight * 0.5}}">{{total}} Billions</text>
 		</g>
 	</svg>
 </div>

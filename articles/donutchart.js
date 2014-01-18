@@ -1,13 +1,13 @@
 "use strict"
 var bdata = {
-	latest: [{label:'jan', values:[25,20,15,40]}],
+	latest: [{label:'jan', values:[25,20,15,60]}],
 	old: [{label: 'jan', values: [125,145,135]},{label: 'feb', values: [143,153,160]},{label: 'mar', values: [170,180,185]}, {label: 'apr', values: [150,160,180]}, {label: 'may', values: [160,170,180]},
 		{label: 'jun', values: [185,200,250]}]
 }
 
 var PieChart = Ractive.extend({
 	init: function(options){
-		this.cdata = options.bdata.latest[0].values;
+		this.cdata = options.bdata.latest[0].values.sort(this.sortDsc);
 		this.legend = options.data.legend;
 		this.divId = options.divId;
 		this.chartType = options.data.chartType;
@@ -23,7 +23,14 @@ var PieChart = Ractive.extend({
 			svgWidth: svgWidth,
 			svgHeight: svgHeight,
 			sectors: self.sectorsM(),
+			total: self.cdata.reduce(function(p,n){return p+n;})
 		});
+	},
+	sortAsc: function(a,b){
+		return a - b;
+	},
+	sortDsc: function(a,b){
+		return b - a;
 	},
 	// The term angle has been used loosely here to mean angle in radians i.e startAngle means startAngleInRadians
 	sectorsM: function(){
