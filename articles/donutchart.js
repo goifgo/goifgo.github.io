@@ -1,6 +1,6 @@
 "use strict"
 var bdata = {
-	latest: [{label:'jan', values:[70,20,10]}],
+	latest: [{label:'jan', values:[25,20,10]}],
 	old: [{label: 'jan', values: [125,145,135]},{label: 'feb', values: [143,153,160]},{label: 'mar', values: [170,180,185]}, {label: 'apr', values: [150,160,180]}, {label: 'may', values: [160,170,180]},
 		{label: 'jun', values: [185,200,250]}]
 }
@@ -10,13 +10,15 @@ var PieChart = Ractive.extend({
 		this.cdata = options.bdata.latest[0].values;
 		this.legend = options.data.legend;
 		this.divId = options.divId;
+		this.chartType = options.data.chartType;
 		this.drawChart();
 	},
 	drawChart: function(){
 		var self = this;
 		var svgWidth = this.nodes[this.divId].clientWidth;
 		var svgHeight = this.nodes[this.divId].clientHeight;	
-		this.radius = svgWidth > svgHeight ? svgHeight * 0.4 : svgWidth * 0.45;
+		this.outerRadius = svgWidth > svgHeight ? svgHeight * 0.4 : svgWidth * 0.45;
+		this.innerRadius = this.outerRadius * 0.4;
 		this.set({
 			svgWidth: svgWidth,
 			svgHeight: svgHeight,
@@ -25,36 +27,53 @@ var PieChart = Ractive.extend({
 	},
 	// The term angle has been used loosely here to mean angle in radians i.e startAngle means startAngleInRadians
 	sectorsM: function(){
-		var r = this.radius;
+		var r0 = this.innerRadius;
+		var r1 = this.outerRadius;
 		var arcs = this.arcs();
+		var self = this;
 		//Convert arc angles into (x,y) points
 		var sectors = []
-		var self = this;
 		arcs.forEach(function(d, i){
 			var a0 = d.startAngle;
 			var a1 = d.endAngle;
-			var x0 = Math.cos(a0) * r; // cos is for x. Multiplying with r to convert from unit circle
-			var y0 = Math.sin(a0) * r; // sin is for y
-			var x1 = Math.cos(a1) * r;
-			var y1 = Math.sin(a1) * r;
-			var largeArcFlag = (d.endAngle - d.startAngle) > Math.PI ? 1 : 0; 
+
+			var c0 = Math.cos(a0); // cos is for x. Multiplying with r to convert from unit circle
+			var s0 = Math.sin(a0); // sin is for y
+			var c1 = Math.cos(a1);
+			var s1 = Math.sin(a1);
+			
 			var labelRadians = (d.endAngle + d.startAngle)/2;
+			var largeArcFlag = (d.endAngle - d.startAngle) > Math.PI ? 1 : 0; 
+			var path, valueLabel;
+			if (self.chartType == 'donut') {
+				path = "M" + c0 * r1 + " " + s0 * r1 // arc starting point
+				+ " A" + r1 + " " + r1 + " 0 " + largeArcFlag + " 1 " + c1 * r1 + " " + s1 * r1 // draw arc to the arc ending ponit in clockwise
+				+ " L" + c1 * r0 + " " + s1 * r0 // draw line to inner circle coordinate.
+				+ " A" + r0 + " " + r0 + " 0 " + largeArcFlag + " 0 " + c0 * r0 + " " + s0 * r0 // draw arc to the arc ending ponit in Anti-clockwise
+				+ " Z"; // move to strarting point
+				valueLabel = {x: Math.cos(labelRadians) * (r1 - (r1-r0)/2), y: Math.sin(labelRadians) * (r1- (r1-r0)/2)}; 
+			} else if (self.chartType == 'pie') {
+				path = "M" + c0 * r1 + " " + s0 * r1 // arc starting point
+				+ " A" + r1 + " " + r1 + " 0 " + largeArcFlag + " 1 " + c1 * r1 + " " + s1 * r1 // draw arc to the arc ending ponit in clockWise
+				+ " L 0 0"
+				+ " Z"; // move to strarting point
+				valueLabel = {x: Math.cos(labelRadians) * r1 / 2, y: Math.sin(labelRadians) * r1 / 2}; 
+			}
 			sectors[i] = {
 				color: self.legend.colors[i], 
 				value: d.data,
-				valueLabel:{x: Math.cos(labelRadians) * r/2, y: Math.sin(labelRadians) * r/2}, 
-				path: "M" + x0 + " " + y0 // arc starting point
-				//A rx ry x-axis-rotation large-arc-flag sweep-flag x y
-				// x-axix-rotation will be useful if rx and ry are different
-				// large-arc-flag: for every arc there are two possible ways to draw. If arc value < PI set 0 else 1, for drawing pie chart.
-				// sweep-flag: determines direction i.e negative direction or positive direction. For pie chart it is 1
-				+ "A" + r + " " + r + " 0 " + largeArcFlag + " 1 " + x1 + " " + y1 // draw arc to the arc ending ponit
-				+ "L" + "0 0" // draw line to origin
-				+ "Z" // move to strarting point
+				valueLabel: valueLabel,
+				path: path,
 			}
 		});
 		return sectors;
+		//Syntax for Arc(A) in path	
+		//A rx ry x-axis-rotation large-arc-flag sweep-flag x y
+		// x-axix-rotation will be useful if rx and ry are different
+		// large-arc-flag: for every arc there are two possible ways to draw. If arc value < PI set 0 else 1, for drawing pie chart.
+		// sweep-flag: colckwise or anti-clockwise . 1 for clockwise and 0 for anti-clockwise direction 
 	},
+
 	// [20, 30, 40] --> [{startAngle: 0, endAngle: 1.3962, data: 20}, ....]
 	arcs: function(){
 		var arr = this.cdata;
@@ -78,9 +97,9 @@ var cfgObj = {
 	template: '#pieChartT',
 	divId: 'pieChart', // Required while setting svgWidth and svgHeight via nodes 
 	bdata: bdata,
-	dualRadius: true,
 	data: {
 		chartTitle: 'Revenue YTD',
+		chartType: 'donut', // other option 'pie'
 		legend: {
 			colors:['rgba(255,0,0,0.4)', 'rgba(0,255,0,0.5)', 'rgba(0,0,255,0.6)'],
 			colorLables: ['Chemestry', 'Physics', 'Maths'],

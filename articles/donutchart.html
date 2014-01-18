@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<title>My Bar Chart</title>
+	<link rel="stylesheet" href="./donutchart.css"></link>
+	<style>
+	</style>
+</head>
+
+<body>
+<div id="container"></div>
+
+<script type="text/ractive" id="pieChartT">
+<div id="pieChart">
+	<svg width="{{svgWidth}}" height="{{svgHeight}}">
+		<g id="chartTitle">
+			<text text-anchor="middle" x="{{svgWidth/2}}" y="{{svgHeight * 0.08}}">{{chartTitle}}</text>
+		</g>
+		{{#sectors}}
+			<g class="sector" transform="translate({{(svgWidth/2)}}, {{(svgHeight/2)}})">
+				<path fill="{{color}}" d="{{path}}"></path>
+				<text transform="translate({{valueLabel.x}}, {{valueLabel.y}})" text-anchor="middle">{{value}}</text>
+			</g>
+		{{/sectors}}
+	</svg>
+</div>
+</script>
+<script src="../vendor/vendor.js"></script>
+<script src="./donutchart.js"></script>
+</body>
+</html>
+
