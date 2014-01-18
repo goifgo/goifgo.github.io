@@ -21,8 +21,9 @@
 			<text text-anchor="middle" x="{{svgWidth/2}}" y="{{svgHeight * 0.08}}">{{chartTitle}}</text>
 		</g>
 		{{#sectors}}
-			<g class='sector' transform='translate({{(svgWidth/2)}}, {{(svgHeight/2)}})'>
-				<path fill='{{color}}' d='{{path}}'></path>
+			<g class="sector" transform="translate({{(svgWidth/2)}}, {{(svgHeight/2)}})">
+				<path fill="{{color}}" d="{{path}}"></path>
+				<text transform="translate({{valueLabel.x}}, {{valueLabel.y}})" text-anchor="middle">{{value}}</text>
 			</g>
 		{{/sectors}}
 	</svg>

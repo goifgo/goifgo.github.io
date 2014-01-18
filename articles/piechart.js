@@ -33,13 +33,16 @@ var PieChart = Ractive.extend({
 		arcs.forEach(function(d, i){
 			var a0 = d.startAngle;
 			var a1 = d.endAngle;
-			var x0 = Math.cos(a0) * r; // cos is for x
+			var x0 = Math.cos(a0) * r; // cos is for x. Multiplying with r to convert from unit circle
 			var y0 = Math.sin(a0) * r; // sin is for y
 			var x1 = Math.cos(a1) * r;
 			var y1 = Math.sin(a1) * r;
 			var largeArcFlag = (d.endAngle - d.startAngle) > Math.PI ? 1 : 0; 
+			var labelRadians = (d.endAngle + d.startAngle)/2;
 			sectors[i] = {
 				color: self.legend.colors[i], 
+				value: d.data,
+				valueLabel:{x: Math.cos(labelRadians) * r/2, y: Math.sin(labelRadians) * r/2}, 
 				path: "M" + x0 + " " + y0 // arc starting point
 				//A rx ry x-axis-rotation large-arc-flag sweep-flag x y
 				// x-axix-rotation will be useful if rx and ry are different

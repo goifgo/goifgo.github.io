@@ -11,8 +11,12 @@
 	width: 100%;
 	/*display:none;*/
 }
-.bars text, #chartTitle text{
+.sector text, #chartTitle text{
 	fill:white;
+}
+
+.sector path:hover {
+	fill: orange;
 }
 
 #choose text{
