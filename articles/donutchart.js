@@ -1,6 +1,6 @@
 "use strict"
 var bdata = {
-	latest: [{label:'jan', values:[25,20,10]}],
+	latest: [{label:'jan', values:[25,20,15,40]}],
 	old: [{label: 'jan', values: [125,145,135]},{label: 'feb', values: [143,153,160]},{label: 'mar', values: [170,180,185]}, {label: 'apr', values: [150,160,180]}, {label: 'may', values: [160,170,180]},
 		{label: 'jun', values: [185,200,250]}]
 }
@@ -18,7 +18,7 @@ var PieChart = Ractive.extend({
 		var svgWidth = this.nodes[this.divId].clientWidth;
 		var svgHeight = this.nodes[this.divId].clientHeight;	
 		this.outerRadius = svgWidth > svgHeight ? svgHeight * 0.4 : svgWidth * 0.45;
-		this.innerRadius = this.outerRadius * 0.4;
+		this.innerRadius = this.outerRadius * 0.45;
 		this.set({
 			svgWidth: svgWidth,
 			svgHeight: svgHeight,
@@ -101,7 +101,7 @@ var cfgObj = {
 		chartTitle: 'Revenue YTD',
 		chartType: 'donut', // other option 'pie'
 		legend: {
-			colors:['rgba(255,0,0,0.4)', 'rgba(0,255,0,0.5)', 'rgba(0,0,255,0.6)'],
+			colors:['rgba(255,0,0,0.4)', 'rgba(0,255,0,0.5)', 'rgba(0,0,255,0.6)', 'rgba(0,255,155,0.5)'],
 			colorLables: ['Chemestry', 'Physics', 'Maths'],
 		},
 	}
