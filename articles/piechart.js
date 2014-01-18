@@ -1,6 +1,6 @@
 "use strict"
 var bdata = {
-	latest: [{label:'jan', values:[60,45,35]}],
+	latest: [{label:'jan', values:[175,45,35]}],
 	old: [{label: 'jan', values: [125,145,135]},{label: 'feb', values: [143,153,160]},{label: 'mar', values: [170,180,185]}, {label: 'apr', values: [150,160,180]}, {label: 'may', values: [160,170,180]},
 		{label: 'jun', values: [185,200,250]}]
 }
@@ -23,6 +23,7 @@ var PieChart = Ractive.extend({
 			sectors: self.sectorsM(),
 		});
 	},
+	// The term angle has been used loosely here to mean angle in radians i.e startAngle means startAngleInRadians
 	sectorsM: function(){
 		var r = this.radius;
 		var arcs = this.arcs();
@@ -36,12 +37,17 @@ var PieChart = Ractive.extend({
 			var y0 = Math.sin(a0) * r; // sin is for y
 			var x1 = Math.cos(a1) * r;
 			var y1 = Math.sin(a1) * r;
+			var largeArcFlag = (d.endAngle - d.startAngle) > Math.PI ? 1 : 0; 
 			sectors[i] = {
 				color: self.legend.colors[i], 
-				path: "M" + x0 + "," + y0
-				+ "A" + r + "," + r + " 0 " + "0" + ",1 " + x1 + "," + y1
-				+ "L" + "0,0"
-				+ "Z"
+				path: "M" + x0 + " " + y0 // arc starting point
+				//A rx ry x-axis-rotation large-arc-flag sweep-flag x y
+				// x-axix-rotation will be useful if rx and ry are different
+				// large-arc-flag: for every arc there are two possible ways to draw. If arc value < PI set 0 else 1, for drawing pie chart.
+				// sweep-flag: determines direction i.e negative direction or positive direction. For pie chart it is 1
+				+ "A" + r + " " + r + " 0 " + largeArcFlag + " 1 " + x1 + " " + y1 // draw arc to the arc ending ponit
+				+ "L" + "0 0" // draw line to origin
+				+ "Z" // move to strarting point
 			}
 		});
 		return sectors;
@@ -49,7 +55,7 @@ var PieChart = Ractive.extend({
 	// [20, 30, 40] --> [{startAngle: 0, endAngle: 1.3962, data: 20}, ....]
 	arcs: function(){
 		var arr = this.cdata;
-		var startAngle = 0
+		var startAngle = 0; // If you use Math.PI here instead of zero, you can get half Circle.
 		var endAngle = 2 * Math.PI // in radians i.e 2 * 3.14159 i.e 2 * 22/7
 		var radiansPerUnit = (endAngle - startAngle)/arr.reduce(function(p,n){return p + n})
 		var arcs = [];
@@ -105,6 +111,7 @@ var resize = function(){
 window.onresize = resize;
 
 // Pie Chart Notes
+// 360deg = 2 * PI radians = endAngle
 // Step1: Findout radians per unit of data i.e. k = 2 * PI / sum(array)
 // Step2: Findout arc startAngle and endAngle i.e startAngle = 0 and endAngle = k * array[i] . For next item endAngle become startAngle
 // Step3: Findout (x,y) coordinates of arcAngles i.e x = cos(angle) and y = sin(angle)
