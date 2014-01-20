@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<title>Dash Board</title>
+	<link rel="stylesheet" href="./dashboard.css"></link>
+	<style>
+	</style>
+</head>
+
+<body>
+<div id="container"></div>
+
+<script type="text/ractive" id="dashBoardT">
+<div id="dashBoard">
+	<svg width="{{svgWidth}}" height="{{svgHeight}}">
+		{{#tx:i}}
+			<g on-tap="kanna" class="box" transform="translate({{tx[i]}}, {{ty[i]}})"> 
+				<rect width="{{boxWidths[i]}}" height="{{boxHeight}}" fill="{{legend.colors[i]}}"></rect>
+				<text x="{{boxWidths[i] * .5}}" y="{{boxHeight * .45}}" fill="white" text-anchor="middle" style="font-size:{{fs}}px">{{legend.colorLables[i]}}</text>
+				<text x="{{boxWidths[i] * .5}}" y="{{boxHeight * .65}}" fill="rgba(255,255,255,0.5)" text-anchor="middle" style="font-size:{{fs}}px">{{100 * 1}} Billions</text>
+			</g>
+		{{/tx}}
+	</svg>
+</div>
+</script>
+<script src="../vendor/vendor.js"></script>
+<script src="./dashboard.js"></script>
+</body>
+</html>
+
