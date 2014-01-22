@@ -1,0 +1,127 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<title>Donut Chart</title>
+	<link rel="stylesheet" href="./kcharts.css"></link>
+	<style>
+	</style>
+</head>
+
+<body>
+<div id="container"></div>
+
+<script type="text/ractive" id="kchartT">
+	<div id="kchart">
+		{{#isDashBoard}}
+			{{>dashBoard}}
+		{{/isDashBoard}}
+		{{#isPieDonut}}
+			{{>pieDonut}}
+		{{/isPieDonut}}
+		{{#isBarChart}}
+			{{>barChart}}
+		{{/isBarChart}}
+	</div>
+</script>
+<script type="text/ractive" id="dashBoard">
+	<svg width="{{svgWidth}}" height="{{svgHeight}}" on-swipeleft="koti">
+		{{#tx:i}}
+			<g on-tap="boxSelect" id="{{dashBoard.legend.colorEvents[i]}}" class="box" transform="translate({{tx[i]}}, {{ty[i]}})"> 
+				<rect width="{{boxWidths[i]}}" height="{{boxHeight}}" fill="{{dashBoard.legend.colors[i]}}"></rect>
+				<text x="{{boxWidths[i] * .5}}" y="{{boxHeight * .45}}" fill="white" text-anchor="middle" style="font-size:{{fs}}px">{{dashBoard.legend.colorLables[i]}}</text>
+				<text x="{{boxWidths[i] * .5}}" y="{{boxHeight * .65}}" fill="rgba(255,255,255,0.5)" text-anchor="middle" style="font-size:{{fs}}px">{{100 * 1}} Billions</text>
+			</g>
+		{{/tx}}
+	</svg>
+</script>
+<script type="text/ractive" id="pieDonut">
+	<svg  width="{{svgWidth}}" height="{{svgHeight}}" on-swipeleft="barChart" on-rightarrow="barChart">
+		<g id="home" transform="translate({{svgWidth * .05}}, {{svgWidth * .05}})" on-tap="dashBoard">
+			<circle cx="0" cy="0" r="30" fill="rgba(255,0,0,0.5)"></circle>
+			<text x="0" y="0" fill="white" text-anchor="middle">Home</text>
+		</g>
+		<g id="chartTitle">
+			<text text-anchor="middle" x="{{svgWidth/2}}" y="{{svgHeight * 0.08}}">{{pieDonut.chartTitle}}</text>
+		</g>
+		{{#sectors}}
+			<g class="sector" transform="translate({{(svgWidth * 0.5)}}, {{(svgHeight * 0.5)}})">
+				<path fill="{{color}}" d="{{path}}"></path>
+				<text transform="translate({{valueLabel.x}}, {{valueLabel.y}})" text-anchor="middle">{{value}}</text>
+			</g>
+		{{/sectors}}
+		<g id="origin">
+			<text text-anchor="middle" x="{{svgWidth/2}}" y="{{svgHeight * 0.5}}">{{total}} Billions</text>
+		</g>
+		<g transform="translate({{svgWidth * 0.5}},{{svgHeight * 0.97}})">
+			{{#fcx:i}}
+				<circle cx="{{.}}" cy="0" r="{{fRadius}}" fill="{{slides[i] ? 'white' : 'black'}}"></circle>
+			{{/fcx}}
+		</g>
+	</svg>
+</script>
+<script type="text/ractive", id="barChart">
+	<svg  width="{{svgWidth}}" height="{{svgHeight}}" on-swipeleft="pieDonut" on-rightarrow="pieDonut">
+		<g id="home" transform="translate({{svgWidth * .05}}, {{svgWidth * .05}})" on-tap="dashBoard">
+			<circle cx="0" cy="0" r="30" fill="rgba(255,0,0,0.5)"></circle>
+			<text x="0" y="0" fill="white" text-anchor="middle">Home</text>
+		</g>
+		<g id="chartTitle">
+			<text text-anchor="middle" x="{{svgWidth/2}}" y="{{svgHeight * 0.08}}">{{barChart.chartTitle}}</text>
+		</g>
+		<g id="choose">	
+			{{#chooseLabels:i}}
+			<g on-tap="{{.}}">
+				<circle cx="{{tcx[i]}}" cy="{{tcy}}" r="{{tRadius}}" fill="{{ichoose[i] ? 'white' : 'black'}}"></circle>
+				<text x="{{tx[i]}}" y="{{ty}}" text-anchor="start">{{.}}</text>
+			</g>
+			{{/chooseLabels}}
+		</g>
+		{{^isStackBar}}
+			{{#mydata:i}}
+				<g class="bars">
+					{{#values:j}}
+						<g class="bar" transform="translate({{ (i == 0) ? svgWidth * 0.05 : width * i * 2 + svgWidth * 0.05}},{{svgHeight - height[j] - svgHeight * .1}})">
+							<rect x={{width/count * j}} width="{{width/count}}" height="{{height[j]}}" fill="{{barChart.legend.colors[j]}}"></rect>
+							<text text-anchor="middle" x="{{width/count * (j + 0.5) }}" y="{{- svgHeight * 0.02}}">{{values[j]}}</text>
+						</g>
+					{{/values}}
+					<g class="label" transform="translate({{ (i == 0) ? svgWidth * 0.05 : width * i * 2 + svgWidth * 0.05}},{{svgHeight*.94}})">
+						<text text-anchor="middle" x="{{width * 0.5}}">{{label}}</text>
+					</g>
+				</g>
+			{{/mydata}}
+		{{/isStackBar}}
+		{{#isStackBar}}
+			{{#mydata:i}}
+				<g class="bars">
+					<g class="bar" transform="translate({{ (i == 0) ? svgWidth * 0.05 : width * i * 2 + svgWidth * 0.05}},{{svgHeight - totalHeight - svgHeight * .1}})">
+						{{#values:j}}
+								<rect  y={{accuHeights[j]}} width="{{width}}" height="{{height[j]}}" fill="{{barChart.legend.colors[j]}}"></rect>
+						{{/values}}
+					</g>
+					<g class="barValue" transform="translate({{ (i == 0) ? svgWidth * 0.05 : width * i * 2 + svgWidth * 0.05}},{{svgHeight - totalHeight - svgHeight * .1}})">
+						<text text-anchor="middle" x="{{width * 0.5}}" y="{{- svgHeight * 0.02}}">{{totalValue}}</text>
+					</g>
+					<g class="label" transform="translate({{ (i == 0) ? svgWidth * 0.05 : width * i * 2 + svgWidth * 0.05}},{{svgHeight*.94}})">
+						<text text-anchor="middle" x="{{width * 0.5}}">{{label}}</text>
+					</g>
+				</g>
+			{{/mydata}}
+		{{/isStackBar}}
+		<g transform="translate({{svgWidth * 0.5}},{{svgHeight * 0.97}})">
+			{{#fcx:i}}
+				<circle cx="{{.}}" cy="0" r="{{fRadius}}" fill="{{slides[i] ? 'white' : 'black'}}"></circle>
+			{{/fcx}}
+		</g>
+	</svg>
+</script>
+<script src="../vendor/vendor.js"></script>
+<script src="./kcharts.js"></script>
+</body>
+</html>
+
