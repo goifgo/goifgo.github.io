@@ -164,6 +164,7 @@ Kcharts.Chart = Ractive.extend({
 		this.drawChart();
 	},
 	drawChart: function(){
+		var self = this;
 		var options = this.options;
 		var chartType = options.data.chartType
 		if (chartType == 'pieDonut'){
@@ -334,7 +335,10 @@ Kcharts.Chart = Ractive.extend({
 				self.barChart();	
 			},
 			dashBoard: function(e){
-				self.set('isPieDonut', false)
+				self.set({
+					isPieDonut: false,
+					chartType: 'dashBoard'
+				})
 				listener.cancel();
 				self.dashBoard();
 			}
@@ -380,6 +384,7 @@ var cfgObj = {
 }
 var mychart = new Kcharts.Chart(cfgObj);
 var resize = function(){
+	mychart.off(); // Removes all event listeners
 	mychart.drawChart();
 }
 window.onresize = resize;
