@@ -1,0 +1,15 @@
+{
+"cfgObjs" :[{
+	"input": [
+		"bower_components/zepto/zepto.min.js",
+		"bower_components/underscore/underscore-min.js",
+		"bower_components/backbone/backbone-min.js",
+		"bower_components/ractive/build/Ractive.min.js",
+		"bower_components/Ractive-events-tap/Ractive-events-tap.min.js",
+		"bower_components/Ractive-events-keys/Ractive-events-keys.js",
+		"bower_components/Ractive-events-swipe/Ractive-events-swipe.js",
+		"bower_components/ractive-backbone/Ractive-Backbone.min.js"
+	],
+	"output": "public/vendor.js"
+}]
+}
