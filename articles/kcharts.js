@@ -325,7 +325,10 @@ Kcharts.Chart = Ractive.extend({
 		});
 		var listener = self.on({
 			barChart: function(e){
-				self.set('isPieDonut', false)
+				self.set({
+					isPieDonut: false,
+					chartType: 'barChart'
+				});
 				self.slides = [0,1,0,0,0];
 				listener.cancel();
 				self.barChart();	
