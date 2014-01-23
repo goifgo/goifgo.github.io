@@ -380,3 +380,12 @@ var resize = function(){
 	mychart.drawChart();
 }
 window.onresize = resize;
+
+/*
+For SVG, on window.resize, no need to redraw the chart we can use bellow properties. 
+	viewBox='0 0 ' + w + ' ' + h
+	preserveAspectRatio="xMidYMid"
+But in the code above, i have redraw the chart on resize! for two reasons
+	1. as it is not that much costly with ractive.
+	2. On resize, when height > width , i want to draw chart differently instead of maintaining the same aspect ratio.
+*/
