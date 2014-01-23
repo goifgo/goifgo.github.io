@@ -12,7 +12,7 @@ var Kcharts = {
 		};
 	},
 	// arrOfArrs = [[1,2],[3,4],[5,6]] -> [1,2,3,4,5,6]
-	merge: function(arrOfArrs){
+	kmerge: function(arrOfArrs){
 		var output = [];
 		arrOfArrs.forEach(function(arr){
 			arr.forEach(function(item){
@@ -66,7 +66,7 @@ var Kcharts = {
 	dataScale: function(data, svgHeight, isStackBar){
 		var inputMax;
 		if (!isStackBar) {
-			inputMax = Kcharts.max(Kcharts.merge(Kcharts.pluck(data, 'values')));
+			inputMax = Kcharts.max(Kcharts.kmerge(Kcharts.pluck(data, 'values')));
 		} else {
 			inputMax = Kcharts.max(Kcharts.multiSum(Kcharts.pluck(data, 'values')));
 		}
