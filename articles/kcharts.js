@@ -160,6 +160,7 @@ Kcharts.Chart = Ractive.extend({
 		this.options = options;
 		this.slides = [1,0,0,0,0];
 		this.ichoose = [0,0,1];
+		this.isStackBar = options.data.barChart.isStackBar || false;
 		this.drawChart();
 	},
 	drawChart: function(){
@@ -168,7 +169,6 @@ Kcharts.Chart = Ractive.extend({
 		if (chartType == 'pieDonut'){
 			this.pieDonut()
 		} else if(chartType == 'barChart') {
-			this.isStackBar = options.data.barChart.isStackBar || false;
 			this.barChart()
 		} else if (chartType == 'dashBoard') {
 			this.dashBoard()
@@ -211,13 +211,14 @@ Kcharts.Chart = Ractive.extend({
 			ty: ty,
 			fs: fontSize,
 		});
-		this.on({
+		var listener = this.on({
 			boxSelect: function(e){
 				self.set({
 					isDashBoard: false,
 					chartType: 'barChart',
 				})
 				self.isStackBar = true;
+				listener.cancel();
 				self.barChart()
 			}
 		})
@@ -253,23 +254,26 @@ Kcharts.Chart = Ractive.extend({
 			ty: svgHeight * 0.12,
 			tx: Kcharts.alignMiddle(tcx * 1.02, self.ichoose.length, tRadius * 25)
 		});
-		this.on({
+		var listener = this.on({
 			single: function(e){
 				self.ichoose = [1,0,0]
 				self.isStackBar = false;
 				self.options.data.barChart.cdata = [{label: 'jan', values: [25]}, {label:'feb', values: [35]}, {label: 'mar', values: [50]}]
+				listener.cancel();
 				self.barChart();
 			},
 			multi: function(event){
 				self.ichoose = [0,1,0]
 				self.isStackBar = false
 				self.options.data.barChart.cdata = [{label: 'jan', values: [125,145,135]},{label: 'feb', values: [143,153,160]},{label: 'mar', values: [170,180,185]}, {label: 'apr', values: [150,160,180]}]
+				listener.cancel();
 				self.barChart();
 			},
 			stack: function(event){
 				self.ichoose = [0,0,1]
 				self.isStackBar = true
 				self.options.data.barChart.cdata = [{label: 'jan', values: [125,145,135]},{label: 'feb', values: [143,153,160]},{label: 'mar', values: [170,180,185]}, {label: 'apr', values: [150,160,180]}]
+				listener.cancel();
 				self.barChart();
 			},
 			pieDonut: function(event) {
@@ -278,14 +282,16 @@ Kcharts.Chart = Ractive.extend({
 					chartType: 'pieDonut',
 				});
 				self.slides = [0,1,0,0,0];
-				self.drawChart()
+				listener.cancel();
+				self.pieDonut()
 			},
 			dashBoard: function(event) {
 				self.set({
 					isBarChart: false,
 					chartType: 'dashBoard',
 				});
-				self.drawChart()
+				listener.cancel();
+				self.dashBoard()
 			}
 		})
 	},
@@ -317,15 +323,16 @@ Kcharts.Chart = Ractive.extend({
 			fRadius: fRadius,
 			fcx: Kcharts.alignMiddle(0, self.slides.length, fRadius * 4),
 		});
-		self.on({
+		var listener = self.on({
 			barChart: function(e){
 				self.set('isPieDonut', false)
-				self.isStackBar = true;
 				self.slides = [0,1,0,0,0];
+				listener.cancel();
 				self.barChart();	
 			},
 			dashBoard: function(e){
 				self.set('isPieDonut', false)
+				listener.cancel();
 				self.dashBoard();
 			}
 		})
