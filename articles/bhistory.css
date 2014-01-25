@@ -1,0 +1,59 @@
+
+* {
+	font-size: 20px;
+	margin:0px;
+	padding:0px;
+	border:0px;
+}
+/*
+@font-face {
+   font-family: 'DIN';
+	src: url('./fonts/DINWeb.woff') format('woff');
+}
+*/
+
+#kchart {
+	background-color: #3399CC;
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	/*font-family: 'DIN', Sans-serif;*/
+	/*font-family: Sans-serif;*/
+}
+
+#home {
+	cursor: pointer;
+}
+#home circle:hover {
+	fill: orange;
+}
+
+.box {
+	cursor: pointer;
+}
+.sector text, #chartTitle text{
+	fill:white;
+}
+
+.sector path:hover {
+	fill: orange;
+}
+rect:hover {
+	/*fill: orange;*/
+}
+
+.bars text, #chartTitle text{
+	fill:white;
+}
+#choose text{
+	fill:rgba(256,256,256,0.7);
+}
+
+#chartTitle text{
+	font-size: 2em; 
+}
+
+#origin text{
+	fill: white;
+	font-size: 1.5em; 
+}
