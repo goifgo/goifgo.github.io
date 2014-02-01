@@ -156,31 +156,30 @@ var Kcharts = {
 }
 
 /*
-calendar(new Date(2014,0,1), 3);
+calendar(new Date(2014,0,1), 3, 0);
 [ [ 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon', 'Tue' ],
   [ 1, 2, 3, 4, 5, 6, 7 ],
   [ 8, 9, 10, 11, 12, 13, 14 ],
   [ 15, 16, 17, 18, 19, 20, 21 ],
   [ 22, 23, 24, 25, 26, 27, 28 ],
   [ 29, 30, 31, 0, 0, 0, 0 ] ]
-*/
 
 //date --> new Date()
 //weekStart --> 0 to 6
-Kcharts.calendar = function calendar(date, weekStart){
+// flag --> 0 to show only current month dates and 1 to show others aswell;
+*/
+Kcharts.calendar = function calendar(date, weekStart, flag){
 	var k = new Date(date);
-	var monthDays = k.getFullYear() % 4 ? [31,28,31,30,31,30,31,31,30,31,30,31] : [31,29,31,30,31,30,31,31,30,31,30,31]
-
 	var mb = new Date(k.getFullYear(), k.getMonth())
-	var me = new Date(k.getFullYear(), k.getMonth(), monthDays[k.getMonth()])
-
-	var weeks = []
-	var days = [0,1,2,3,4,5,6]
+	var me = new Date(k.getFullYear(), k.getMonth()+1, 0)
+	var pme = new Date(k.getFullYear(), k.getMonth(), 0)
+	var pend = pme.getDate();
 
 	var start = mb.getDay() - weekStart < 0 ? 7 + (mb.getDay() - weekStart) : mb.getDay() - weekStart
 	var end = me.getDay() - weekStart < 0 ? 7 + (me.getDay() - weekStart) : me.getDay() - weekStart
 
 	var weeksCount = (me.getDate() + (6 - end) + start)/7
+	var weeks = []
 	for (var i = 0; i < weeksCount; i++){
 		weeks[i] = i
 	}
@@ -188,7 +187,7 @@ Kcharts.calendar = function calendar(date, weekStart){
 		var week = [0,0,0,0,0,0,0];
 		week.forEach(function(d, j){
 			if (i == 0 && j < start) {
-				week[j] = 0;
+				week[j] = flag ? pend - start + j + 1 : 0;
 			} else if (i == 0 && j == start){
 				week[j] = 1
 			} else if (i == 0 && j > start){
@@ -199,6 +198,10 @@ Kcharts.calendar = function calendar(date, weekStart){
 				week[j] = week[j-1]+1
 			} else if (i == weeksCount - 1 && j < end + 1){
 				week[j] = week[j-1]+1
+			} else if (flag && j == end + 1) {
+				week[j] = 1
+			} else if (flag && j > end + 1){
+				week[j] = week[j-1] + 1
 			}
 		});
 		weeks[i] = week
