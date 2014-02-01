@@ -155,6 +155,64 @@ var Kcharts = {
 	},
 }
 
+/*
+calendar(new Date(2014,0,1), 3);
+[ [ 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon', 'Tue' ],
+  [ 1, 2, 3, 4, 5, 6, 7 ],
+  [ 8, 9, 10, 11, 12, 13, 14 ],
+  [ 15, 16, 17, 18, 19, 20, 21 ],
+  [ 22, 23, 24, 25, 26, 27, 28 ],
+  [ 29, 30, 31, 0, 0, 0, 0 ] ]
+*/
+
+//date --> new Date()
+//weekStart --> 0 to 6
+Kcharts.calendar = function calendar(date, weekStart){
+	var k = new Date(date);
+	var monthDays = k.getFullYear() % 4 ? [31,28,31,30,31,30,31,31,30,31,30,31] : [31,29,31,30,31,30,31,31,30,31,30,31]
+
+	var mb = new Date(k.getFullYear(), k.getMonth())
+	var me = new Date(k.getFullYear(), k.getMonth(), monthDays[k.getMonth()])
+
+	var weeks = []
+	var days = [0,1,2,3,4,5,6]
+
+	var start = mb.getDay() - weekStart < 0 ? 7 + (mb.getDay() - weekStart) : mb.getDay() - weekStart
+	var end = me.getDay() - weekStart < 0 ? 7 + (me.getDay() - weekStart) : me.getDay() - weekStart
+
+	var weeksCount = (me.getDate() + (6 - end) + start)/7
+	for (var i = 0; i < weeksCount; i++){
+		weeks[i] = i
+	}
+	weeks.forEach(function(w, i){
+		var week = [0,0,0,0,0,0,0];
+		week.forEach(function(d, j){
+			if (i == 0 && j < start) {
+				week[j] = 0;
+			} else if (i == 0 && j == start){
+				week[j] = 1
+			} else if (i == 0 && j > start){
+				week[j] = week[j-1] + 1
+			} else if (i > 0 && j == 0) {
+				week[j] = weeks[i-1][6] + 1
+			} else if (i < weeksCount - 1){
+				week[j] = week[j-1]+1
+			} else if (i == weeksCount - 1 && j < end + 1){
+				week[j] = week[j-1]+1
+			}
+		});
+		weeks[i] = week
+	});
+	var weekDays = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
+	var revisedWeekDays = []
+	weekDays.forEach(function(day, i){
+		var offset = i + weekStart > 6 ? i + weekStart - 7 : i + weekStart;
+		revisedWeekDays[i] = weekDays[offset]
+	})
+	weeks.unshift(revisedWeekDays)
+	return weeks
+}
+
 Kcharts.Chart = Ractive.extend({
 	init: function(options) {
 		this.options = options;
