@@ -234,6 +234,9 @@ Kcharts.Chart = Ractive.extend({
 			this.barChart()
 		} else if (chartId == 'dashBoard') {
 			this.dashBoard()
+		} else if (chartId == 'calendar') {
+			this.calendar()
+			console.log('i am calendar')
 		}
 	},
 	setup: function(chartId){
@@ -242,8 +245,85 @@ Kcharts.Chart = Ractive.extend({
 			isDashBoard: false,
 			isBarChart: false,
 			isPieDonut: false,
+			isCalendar: false,
 		});
 		this.options.chartId = chartId;
+	},
+	calendar: function(){
+		this.setup('calendar')
+		var options = this.options;
+		var self = this;
+		var slideCount = options.data.slideCount;
+		var activeSlide = options.data.slideData.slide;
+		var chartTitle = options.data.slideData.chartTitle;
+		var slides = self.slidesM(slideCount, activeSlide);
+		console.log(activeSlide)
+		var chartSubType = options.data.slideData.chartSubType;
+		var cdata = options.data.slideData.cdata.values;
+		console.log(cdata)
+		var legend = {
+		   colors: ['rgba(255,0,0,0.4)', 'rgba(0,255,0,0.5)', 'rgba(0,0,255,0.6)', 'rgba(0,255,155,0.5)'],
+			colorLables: ['Chemistry', 'Physics', 'Maths', 'Commerce'],
+		};
+		var divId = options.divId;
+		var svgWidth = options.svgWidth || this.nodes[divId].clientWidth;
+		var svgHeight = options.svgHeight || this.nodes[divId].clientHeight;	
+		var weeks = Kcharts.calendar(new Date(2014,1,1), 2, 0)
+		var boxWidth = svgWidth/8;
+		var boxHeight = svgHeight/(weeks.length + 2);
+		var weeksArrObj = []
+		weeks.forEach(function(w, i){
+			weeksArrObj[i] = {week: w}
+		})
+		var fRadius = svgWidth * 0.005;
+		var wx = Kcharts.alignMiddle(svgWidth/2, 7, boxWidth);
+		var wxv = wx.map(function(item){ return item - boxWidth/2})
+		console.log(wx);
+		self.set({
+			svgWidth: svgWidth,
+			svgHeight: svgHeight,
+			isCalendar: true,
+			chartTitle: chartTitle,
+			weeks: weeksArrObj,
+			wx: wxv,
+			boxWidth: boxWidth,
+			boxHeight: boxHeight,
+			total: cdata.reduce(function(p,n){return p+n;}),
+			slideId: options.data.slideData.slide,
+			slides: slides,
+			fRadius: fRadius,
+			fcx: Kcharts.alignMiddle(0, self.slides.length, fRadius * 4),
+		});
+		var listener = self.on({
+			home: function(event) {
+				self.options.data.slideData = dashBoardData;
+				listener.cancel()
+				//history.pushState({chartId: 'dashBoard'}, 'dashboard', 'dashBoardk.html');
+				self.dashBoard()
+			},
+			slra: function(e){
+				var currentSlide = e.node.id	* 1;
+				var nextSlide = currentSlide + 1;
+				if (self.options.data.slideCount !== nextSlide) {
+					self.options.data.slideData = revenueData[nextSlide]
+					//history.pushState({chartId: 'dashBoard'}, 'dashboard', 'dashBoardk.html');
+					var chartType = self.options.data.slideData.chartType;
+					listener.cancel()
+					self[chartType]();
+				}
+			},
+			srla: function(e){
+				var currentSlide = e.node.id	* 1;
+				var preSlide = currentSlide - 1
+				if (currentSlide !== 0) {
+					self.options.data.slideData = revenueData[preSlide]
+					//history.pushState({chartId: 'dashBoard'}, 'dashboard', 'dashBoardk.html');
+					var chartType = self.options.data.slideData.chartType;
+					listener.cancel()
+					self[chartType]();
+				}
+			}
+		})
 	},
 	dashBoard: function(){
 		this.setup('dashBoard')
@@ -499,8 +579,8 @@ var revenueData = [
       cdata: [{label: 'kanna', values: [125,145,135]},{label: 'feb', values: [143,153,160]},{label: 'mar', values: [170,180,185]}, {label: 'apr', values: [150,160,180]}]},
    {slide: 2, chartType: 'barChart', chartSubType: 'vbar', chartTitle: 'Revenue MoM',
       cdata: [{label: 'china', values: [125,145,135]},{label: 'feb', values: [143,153,160]},{label: 'mar', values: [170,180,185]}, {label: 'apr', values: [150,160,180]}]},
-   {slide: 3, chartType: 'barChart', chartSubType: 'stackBar', chartTitle: 'Revenue WoW',
-      cdata: [{label: 'anna', values: [125,145,135]},{label: 'feb', values: [143,153,160]},{label: 'mar', values: [170,180,185]}, {label: 'apr', values: [150,160,180]}]},
+   {slide: 3, chartType: 'calendar', chartSubType: 'stackBar', chartTitle: 'Revenue WoW',
+      cdata: {dates: [1,2,3,4,5,6,7,8,15,25,30,31], values: [100,200,300,400,500,600,700,800,900,1000,1100,1200]}},
    {slide: 4, chartType: 'barChart', chartSubType: 'vbar', chartTitle: 'Revenue DoD',
       cdata: [{label: 'anna', values: [125,145,135]},{label: 'feb', values: [143,153,160]},{label: 'mar', values: [170,180,185]}, {label: 'apr', values: [150,160,180]}]},
 ];

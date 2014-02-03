@@ -26,6 +26,9 @@
 		{{#isBarChart}}
 			{{>barChart}}
 		{{/isBarChart}}
+		{{#isCalendar}}
+			{{>calendar}}
+		{{/isCalendar}}
 	</div>
 </script>
 <script type="text/ractive" id="dashBoard">
@@ -57,6 +60,33 @@
 		<g id="origin">
 			<text text-anchor="middle" x="{{svgWidth/2}}" y="{{svgHeight * 0.5}}">{{total}} Billions</text>
 		</g>
+		<g transform="translate({{svgWidth * 0.5}},{{svgHeight * 0.97}})">
+			{{#fcx:i}}
+				<circle cx="{{.}}" cy="0" r="{{fRadius}}" fill="{{slides[i] ? 'white' : 'black'}}"></circle>
+			{{/fcx}}
+		</g>
+	</svg>
+</script>
+<script type="text/ractive" id="calendar">
+	<svg  width="{{svgWidth}}" height="{{svgHeight}}" on-swipeleft="slra" on-rightarrow="slra" on-swiperight="srla" on-leftarrow="srla" id="{{slideId}}">
+		<g id="home" transform="translate({{svgWidth * .05}}, {{svgWidth * .05}})" on-tap="home">
+			<circle cx="0" cy="0" r="30" fill="rgba(255,0,0,0.5)"></circle>
+			<text x="0" y="0" fill="white" text-anchor="middle">Home</text>
+		</g>
+		<g id="chartTitle">
+			<text text-anchor="middle" x="{{svgWidth/2}}" y="{{svgHeight * 0.08}}">{{chartTitle}}</text>
+		</g>
+		<g id="calendarMonth">
+			<text text-anchor="middle" x="{{svgWidth/2}}" y="{{svgHeight * 0.12}}">Feb 2014</text>
+		</g>
+		{{#weeks:i}}
+			{{#week:j}}
+			<g on-tap="boxSelect" class="box" transform="translate({{wx[j]}}, {{boxHeight*(i+1.3)}})"> 
+				<rect width="{{boxWidth}}" height="{{boxHeight}}" fill="green"></rect>
+				<text x={{boxWidth/2}} y={{boxHeight/2}} text-anchor="middle">{{.}}</text>
+			</g>
+			{{/week}}
+		{{/weeks}}
 		<g transform="translate({{svgWidth * 0.5}},{{svgHeight * 0.97}})">
 			{{#fcx:i}}
 				<circle cx="{{.}}" cy="0" r="{{fRadius}}" fill="{{slides[i] ? 'white' : 'black'}}"></circle>
