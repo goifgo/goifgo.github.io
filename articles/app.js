@@ -211,7 +211,10 @@ Kcharts.calendar = function calendar(date, weekStart, flag){
 	var revisedWeekDays = []
 	weekDays.forEach(function(day, i){
 		var offset = i + weekStart > 6 ? i + weekStart - 7 : i + weekStart;
-		revisedWeekDays[i] = weekDays[offset]
+		revisedWeekDays[i] = {
+			id: offset,
+			weekDay: weekDays[offset]
+		}
 	})
 	//weeks.unshift(revisedWeekDays)
 	
@@ -251,6 +254,8 @@ Kcharts.Chart = Ractive.extend({
 		this.slides = [1,0,0,0,0];
 		this.ichoose = [0,0,1];
 		this.isStackBar = options.data.slideData.isStackBar || false;
+		this.activeDate = new Date();
+		this.weekStart = 2;
 		this.drawChart();
 	},
 	drawChart: function(){
@@ -298,20 +303,15 @@ Kcharts.Chart = Ractive.extend({
 		var svgWidth = options.svgWidth || this.nodes[divId].clientWidth;
 		var svgHeight = options.svgHeight || this.nodes[divId].clientHeight;	
 		var months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
-		var k = new Date()
+		var k = self.activeDate;
 		var month = months[k.getMonth()] + ' ' + k.getFullYear()
-		var weeks = Kcharts.calendar(k, 2, 1)
+		var weeks = Kcharts.calendar(k, self.weekStart, 1)
 		var boxHeight = svgHeight/(weeks.length + 2);
 		var weekTitles = weeks.shift()
 		var boxWidth = svgWidth/8;
 		var weeksArrObj = []
 		
 		weeks.forEach(function(w,i){
-			w.forEach(function(d){
-				cdata.dates.forEach(function(v,j){
-					if (v == d.id)  {d.value = cdata.values[j]}
-				})
-			})
 			weeksArrObj[i] = {week: w}
 		})
 		var fRadius = svgWidth * 0.005;
@@ -324,6 +324,7 @@ Kcharts.Chart = Ractive.extend({
 			isCalendar: true,
 			fs: fontSize,
 			chartTitle: chartTitle,
+			cdata: cdata,
 			month: month,
 			weeks: weeksArrObj,
 			weekTitles: weekTitles,
@@ -363,7 +364,28 @@ Kcharts.Chart = Ractive.extend({
 					listener.cancel()
 					self[chartType]();
 				}
-			}
+			},
+			weekDay: function(e){
+				self.weekStart = e.node.id	* 1;
+				listener.cancel()
+				self.calendar();
+			},
+			preMonth: function(e){
+				self.activeDate = new Date(self.activeDate.getFullYear(), self.activeDate.getMonth(), 0);
+				listener.cancel()
+				self.calendar();
+			},
+			curMonth: function(e){
+				self.activeDate = new Date()
+				listener.cancel()
+				self.calendar();
+			},
+			nextMonth: function(e){
+				self.activeDate = new Date(self.activeDate.getFullYear(), self.activeDate.getMonth() + 1, 1);
+				listener.cancel()
+				self.calendar();
+			},
+
 		})
 	},
 	dashBoard: function(){
@@ -621,7 +643,7 @@ var revenueData = [
    {slide: 2, chartType: 'barChart', chartSubType: 'vbar', chartTitle: 'Revenue MoM',
       cdata: [{label: 'china', values: [125,145,135]},{label: 'feb', values: [143,153,160]},{label: 'mar', values: [170,180,185]}, {label: 'apr', values: [150,160,180]}]},
    {slide: 3, chartType: 'calendar', chartSubType: 'stackBar', chartTitle: 'Revenue WoW',
-      cdata: {dates: ['20140128','20140129','20140130','20140130','20140131','20140201','20140202','20140203','20140204'], values: [100,200,300,400,500,600,700,800,900,1000,1100,1200]}},
+      cdata: {'20140128': 100,'20140129':200,'20140130':300,'20140131':500,'20140201':600,'20140202':700,'20140203':800,'20140204':900}},
    {slide: 4, chartType: 'barChart', chartSubType: 'vbar', chartTitle: 'Revenue DoD',
       cdata: [{label: 'anna', values: [125,145,135]},{label: 'feb', values: [143,153,160]},{label: 'mar', values: [170,180,185]}, {label: 'apr', values: [150,160,180]}]},
 ];

@@ -79,20 +79,20 @@
 		<g id="calendarMonth">
 			<text on-tap="preMonth" class="box" text-anchor="start" x="{{svgWidth * 0.45}}" y="{{svgHeight * 0.15}}" style="font-size:1.5em">&lt;</text>
 			<text on-tap="curMonth" class="box" text-anchor="start" x="{{svgWidth * 0.45 + 30}}" y="{{svgHeight * 0.15}}" style="font-size:1.5em">{{month}}</text>
-			<text on-tap="nextMonth" class="box" text-anchor="end" x="{{svgWidth * 0.45 + 180}}" y="{{svgHeight * 0.15}}" style="font-size:1.5em">&gt;</text>
+			<text on-tap="nextMonth" class="box" text-anchor="end" x="{{svgWidth * 0.45 + 190}}" y="{{svgHeight * 0.15}}" style="font-size:1.5em">&gt;</text>
 		</g>
 		{{#weekTitles:i}}
-			<g on-tap="boxSelect" class="box" transform="translate({{wx[i]}}, {{boxHeight * 1.3}})">
-				<rect id={{id}} width="{{boxWidth}}" height="{{boxHeight}}" fill="{{i == 0 ? '#3399CC' : '#3399CC'}}" stroke="green"></rect>
-				<text x={{boxWidth/2}} y={{boxHeight/2}} text-anchor="middle" style="font-size:1.5em">{{.}}</text>
+			<g on-tap="weekDay" class="box" transform="translate({{wx[i]}}, {{boxHeight * 1.5}})" id={{id}}>
+				<rect id={{id}} width="{{boxWidth}}" height="{{boxHeight * .8}}" fill="#3399CC" stroke="green"></rect>
+				<text x={{boxWidth/2}} y={{boxHeight/2}} text-anchor="middle" style="font-size:1.5em">{{weekDay}}</text>
 			</g>
 		{{/weekTitles}}
 		{{#weeks:i}}
 			{{#week:j}}
-			<g on-tap="boxSelect" transform="translate({{wx[j]}}, {{boxHeight*(i+2.3)}})">
-				<rect id={{id}} width="{{boxWidth}}" height="{{boxHeight}}" fill="{{i == 0 ? '#3399CC' : '#3399CC'}}" stroke="green"></rect>
+			<g transform="translate({{wx[j]}}, {{boxHeight*(i+2.3)}})" id={{id}}>
+				<rect width="{{boxWidth}}" height="{{boxHeight}}" fill="#3399CC" stroke="green"></rect>
 				<text x={{boxWidth*0.1 }} y={{boxHeight * 0.2}} text-anchor="middle" style="font-size:1em">{{date}}</text>
-				<text x={{boxWidth/2 }} y={{boxHeight*0.6}} text-anchor="middle" style="font-size:1.5em" fill="{{i == 0 && date > 20 ? 'rgba(255,255,255,0.5)' : 'white'}}">{{value}}</text>
+				<text x={{boxWidth/2 }} y={{boxHeight*0.6}} text-anchor="middle" style="font-size:1.5em" fill="{{i == 0 && date > 20 || i>1 && date<7 ? 'rgba(255,255,255,0.5)':'white'}}">{{cdata[id]}}</text>
 			</g>
 			{{/week}}
 		{{/weeks}}
