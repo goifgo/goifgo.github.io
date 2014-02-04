@@ -77,15 +77,20 @@
 			<text text-anchor="middle" x="{{svgWidth/2}}" y="{{svgHeight * 0.08}}">{{chartTitle}}</text>
 		</g>
 		<g id="calendarMonth">
-			<text text-anchor="middle" x="{{svgWidth/2}}" y="{{svgHeight * 0.12}}">Feb 2014</text>
+			<text text-anchor="middle" x="{{svgWidth * 0.9}}" y="{{svgHeight * 0.15}}" style="font-size:1.5em">{{month}}</text>
 		</g>
 		{{#weeks:i}}
 			{{#week:j}}
 			<g on-tap="boxSelect" class="box" transform="translate({{wx[j]}}, {{boxHeight*(i+1.3)}})"> 
-				<rect width="{{boxWidth}}" height="{{boxHeight}}" fill="green"></rect>
-				<text x={{boxWidth/2}} y={{boxHeight/2}} text-anchor="middle">{{.}}</text>
+				<rect width="{{boxWidth}}" height="{{boxHeight}}" fill="{{i == 0 ? '#3399CC' : '#3399CC'}}" stroke="green"></rect>
+				<text x={{i == 0 ? boxWidth/2 : boxWidth*0.1 }} y={{i == 0 ? boxHeight/2 : boxHeight * 0.2}} text-anchor="middle" style="font-size:{{i == 0 ? 1.5: 1}}em">{{.}}</text>
 			</g>
 			{{/week}}
+			<g on-tap="boxSelect" class="box" transform="translate({{wx[0]}},{{boxHeight*(i+1.3)}})"> 
+				{{#i !== 0}}
+				<rect y={{boxHeight/2}} width="{{boxWidth*4}}" height="{{boxHeight*0.4}}" fill="{{i == 0 ? '#3399CC' : 'rgba(0,0,255,0.4)'}}"></rect>
+				{{/i}}
+			</g>
 		{{/weeks}}
 		<g transform="translate({{svgWidth * 0.5}},{{svgHeight * 0.97}})">
 			{{#fcx:i}}

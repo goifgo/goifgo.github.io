@@ -268,7 +268,10 @@ Kcharts.Chart = Ractive.extend({
 		var divId = options.divId;
 		var svgWidth = options.svgWidth || this.nodes[divId].clientWidth;
 		var svgHeight = options.svgHeight || this.nodes[divId].clientHeight;	
-		var weeks = Kcharts.calendar(new Date(2014,1,1), 2, 0)
+		var months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
+		var k = new Date()
+		var month = months[k.getMonth()] + ' ' + k.getFullYear()
+		var weeks = Kcharts.calendar(k, 2, 1)
 		var boxWidth = svgWidth/8;
 		var boxHeight = svgHeight/(weeks.length + 2);
 		var weeksArrObj = []
@@ -277,13 +280,16 @@ Kcharts.Chart = Ractive.extend({
 		})
 		var fRadius = svgWidth * 0.005;
 		var wx = Kcharts.alignMiddle(svgWidth/2, 7, boxWidth);
-		var wxv = wx.map(function(item){ return item - boxWidth/2})
-		console.log(wx);
+		var wxv = wx.map(function(item){ return item - boxWidth*.2})
+		console.log(boxWidth * 0.1)
+		var fontSize = (boxWidth * 0.2)
 		self.set({
 			svgWidth: svgWidth,
 			svgHeight: svgHeight,
 			isCalendar: true,
+			fs: fontSize,
 			chartTitle: chartTitle,
+			month: month,
 			weeks: weeksArrObj,
 			wx: wxv,
 			boxWidth: boxWidth,
