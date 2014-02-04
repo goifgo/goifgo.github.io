@@ -172,6 +172,7 @@ Kcharts.calendar = function calendar(date, weekStart, flag){
 	var k = new Date(date);
 	var mb = new Date(k.getFullYear(), k.getMonth())
 	var me = new Date(k.getFullYear(), k.getMonth()+1, 0)
+	var nmb = new Date(k.getFullYear(), k.getMonth()+1, 1)
 	var pme = new Date(k.getFullYear(), k.getMonth(), 0)
 	var pend = pme.getDate();
 
@@ -212,8 +213,36 @@ Kcharts.calendar = function calendar(date, weekStart, flag){
 		var offset = i + weekStart > 6 ? i + weekStart - 7 : i + weekStart;
 		revisedWeekDays[i] = weekDays[offset]
 	})
-	weeks.unshift(revisedWeekDays)
-	return weeks
+	//weeks.unshift(revisedWeekDays)
+	
+	var pmy = pme.getFullYear()
+	var cmy = mb.getFullYear()
+	var nmy = nmb.getFullYear()
+	var pm = pme.getMonth() + 1
+	var kpm = pm > 9 ? pmy + '' + pm : pmy + '0' + pm;
+	var cm = mb.getMonth() + 1
+	var kcm = cm > 9 ? cmy + '' + cm : cmy + '0' + cm;
+	var nm = nmb.getMonth() + 1
+	var knm = cm > 9 ? nmy + '' + nm : nmy + '0' + nm;
+	var wee = [];
+	weeks.forEach(function(w, i){
+		var we = []
+		w.forEach(function(d, j){
+			var da = d > 9 ? d : '0' + d; 
+			
+			var id = (i == 0 && d > 20) ? kpm + '' + da
+			: (i > 1 & d < 7) ? knm + '' + da
+			: kcm + '' + da
+
+			we[j] = {
+				id: id,
+				date:d
+			}
+		})
+		wee[i] = we
+	});
+	wee.unshift(revisedWeekDays)
+	return wee
 }
 
 Kcharts.Chart = Ractive.extend({
@@ -259,7 +288,7 @@ Kcharts.Chart = Ractive.extend({
 		var slides = self.slidesM(slideCount, activeSlide);
 		console.log(activeSlide)
 		var chartSubType = options.data.slideData.chartSubType;
-		var cdata = options.data.slideData.cdata.values;
+		var cdata = options.data.slideData.cdata;
 		console.log(cdata)
 		var legend = {
 		   colors: ['rgba(255,0,0,0.4)', 'rgba(0,255,0,0.5)', 'rgba(0,0,255,0.6)', 'rgba(0,255,155,0.5)'],
@@ -272,16 +301,22 @@ Kcharts.Chart = Ractive.extend({
 		var k = new Date()
 		var month = months[k.getMonth()] + ' ' + k.getFullYear()
 		var weeks = Kcharts.calendar(k, 2, 1)
-		var boxWidth = svgWidth/8;
 		var boxHeight = svgHeight/(weeks.length + 2);
+		var weekTitles = weeks.shift()
+		var boxWidth = svgWidth/8;
 		var weeksArrObj = []
-		weeks.forEach(function(w, i){
+		
+		weeks.forEach(function(w,i){
+			w.forEach(function(d){
+				cdata.dates.forEach(function(v,j){
+					if (v == d.id)  {d.value = cdata.values[j]}
+				})
+			})
 			weeksArrObj[i] = {week: w}
 		})
 		var fRadius = svgWidth * 0.005;
 		var wx = Kcharts.alignMiddle(svgWidth/2, 7, boxWidth);
-		var wxv = wx.map(function(item){ return item - boxWidth*.2})
-		console.log(boxWidth * 0.1)
+		var wxv = wx.map(function(item){ return item - boxWidth*.5})
 		var fontSize = (boxWidth * 0.2)
 		self.set({
 			svgWidth: svgWidth,
@@ -291,10 +326,10 @@ Kcharts.Chart = Ractive.extend({
 			chartTitle: chartTitle,
 			month: month,
 			weeks: weeksArrObj,
+			weekTitles: weekTitles,
 			wx: wxv,
 			boxWidth: boxWidth,
 			boxHeight: boxHeight,
-			total: cdata.reduce(function(p,n){return p+n;}),
 			slideId: options.data.slideData.slide,
 			slides: slides,
 			fRadius: fRadius,
@@ -586,7 +621,7 @@ var revenueData = [
    {slide: 2, chartType: 'barChart', chartSubType: 'vbar', chartTitle: 'Revenue MoM',
       cdata: [{label: 'china', values: [125,145,135]},{label: 'feb', values: [143,153,160]},{label: 'mar', values: [170,180,185]}, {label: 'apr', values: [150,160,180]}]},
    {slide: 3, chartType: 'calendar', chartSubType: 'stackBar', chartTitle: 'Revenue WoW',
-      cdata: {dates: [1,2,3,4,5,6,7,8,15,25,30,31], values: [100,200,300,400,500,600,700,800,900,1000,1100,1200]}},
+      cdata: {dates: ['20140128','20140129','20140130','20140130','20140131','20140201','20140202','20140203','20140204'], values: [100,200,300,400,500,600,700,800,900,1000,1100,1200]}},
    {slide: 4, chartType: 'barChart', chartSubType: 'vbar', chartTitle: 'Revenue DoD',
       cdata: [{label: 'anna', values: [125,145,135]},{label: 'feb', values: [143,153,160]},{label: 'mar', values: [170,180,185]}, {label: 'apr', values: [150,160,180]}]},
 ];
